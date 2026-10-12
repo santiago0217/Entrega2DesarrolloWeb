@@ -1,1 +1,54 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  color: #1c2129;
+  background: #ffffff;
+}
+
+.formulario {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid #c9ced6;
+  border-radius: 8px;
+}
+
+.formulario h2 {
+  margin: 0;
+}
+
+.campo {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.campo input,
+.campo select {
+  padding: 0.5rem;
+  font: inherit;
+  border: 1px solid #6b7280;
+  border-radius: 4px;
+}
+
+.campo-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.formulario button {
+  justify-self: start;
+  padding: 0.5rem 1rem;
+  font: inherit;
+  color: #ffffff;
+  background: #0b4f9c;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.error {
+  margin: 0;
+  color: #a4161a;
+}

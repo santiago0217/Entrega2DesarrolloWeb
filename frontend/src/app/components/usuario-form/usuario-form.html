@@ -1,1 +1,79 @@
-<p>usuario-form works!</p>
+<form class="formulario" novalidate (ngSubmit)="guardar()">
+  <h2>Nuevo usuario</h2>
+
+  <div class="campo">
+    <label for="usuario-nombre">Nombre</label>
+    <input
+      id="usuario-nombre"
+      type="text"
+      name="nombre"
+      autocomplete="name"
+      required
+      [attr.aria-invalid]="intentoGuardar() && nombreVacio()"
+      aria-describedby="usuario-nombre-error"
+      [(ngModel)]="nombre"
+    />
+    <div id="usuario-nombre-error" role="alert">
+      @if (intentoGuardar() && nombreVacio()) {
+        <p class="error">Debe ingresar el nombre del usuario</p>
+      }
+    </div>
+  </div>
+
+  <div class="campo">
+    <label for="usuario-correo">Correo</label>
+    <input
+      id="usuario-correo"
+      type="email"
+      name="correo"
+      autocomplete="email"
+      required
+      [attr.aria-invalid]="intentoGuardar() && correoVacio()"
+      aria-describedby="usuario-correo-error"
+      [(ngModel)]="correo"
+    />
+    <div id="usuario-correo-error" role="alert">
+      @if (intentoGuardar() && correoVacio()) {
+        <p class="error">Debe ingresar el correo del usuario</p>
+      }
+    </div>
+  </div>
+
+  <div class="campo">
+    <label for="usuario-password">Contraseña</label>
+    <input
+      id="usuario-password"
+      type="password"
+      name="password"
+      autocomplete="new-password"
+      [(ngModel)]="password"
+    />
+  </div>
+
+  <div class="campo">
+    <label for="usuario-telefono">Teléfono</label>
+    <input
+      id="usuario-telefono"
+      type="tel"
+      name="telefono"
+      autocomplete="tel"
+      [(ngModel)]="telefono"
+    />
+  </div>
+
+  <div class="campo">
+    <label for="usuario-rol">Rol</label>
+    <select id="usuario-rol" name="rol" [(ngModel)]="rol">
+      @for (opcion of roles; track opcion) {
+        <option [value]="opcion">{{ opcion }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="campo-check">
+    <input id="usuario-activo" type="checkbox" name="activo" [(ngModel)]="activo" />
+    <label for="usuario-activo">Activo</label>
+  </div>
+
+  <button type="submit">Guardar usuario</button>
+</form>

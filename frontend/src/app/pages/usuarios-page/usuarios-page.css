@@ -1,0 +1,11 @@
+.lista {
+  margin-top: 1.5rem;
+}
+
+.lista ul {
+  padding-left: 1.25rem;
+}
+
+.lista li {
+  padding: 0.25rem 0;
+}

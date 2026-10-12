@@ -1,1 +1,29 @@
-<p>login-form works!</p>
+<form class="formulario" (ngSubmit)="enviarLogin()">
+  <h2>{{ titulo() }}</h2>
+
+  <div class="campo">
+    <label for="login-correo">Correo</label>
+    <input
+      id="login-correo"
+      type="email"
+      name="correo"
+      autocomplete="username"
+      required
+      [(ngModel)]="correo"
+    />
+  </div>
+
+  <div class="campo">
+    <label for="login-password">Contraseña</label>
+    <input
+      id="login-password"
+      type="password"
+      name="password"
+      autocomplete="current-password"
+      required
+      [(ngModel)]="password"
+    />
+  </div>
+
+  <button type="submit">Ingresar</button>
+</form>

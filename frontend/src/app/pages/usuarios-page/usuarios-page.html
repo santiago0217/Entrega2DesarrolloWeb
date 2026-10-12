@@ -1,0 +1,14 @@
+<h1>Gestión de usuarios</h1>
+
+<app-usuario-form (usuarioGuardado)="guardarUsuario($event)" />
+
+<section class="lista" aria-labelledby="lista-titulo">
+  <h2 id="lista-titulo">Usuarios registrados</h2>
+  <ul>
+    @for (u of usuarios(); track u.id ?? u.correo) {
+      <li>{{ u.nombre }} - {{ u.correo }} - {{ u.rol }}</li>
+    } @empty {
+      <li>Aún no hay usuarios registrados.</li>
+    }
+  </ul>
+</section>
