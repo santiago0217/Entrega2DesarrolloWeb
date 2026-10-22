@@ -1,16 +1,8 @@
-# Compiled class file
+# ===== Java / Maven =====
 *.class
-
-# Log file
 *.log
-
-# BlueJ files
 *.ctxt
-
-# Mobile Tools for Java (J2ME)
 .mtj.tmp/
-
-# Package Files #
 *.jar
 *.war
 *.nar
@@ -18,13 +10,107 @@
 *.zip
 *.tar.gz
 *.rar
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+target/
+HELP.md
+!.mvn/wrapper/maven-wrapper.properties
 
-# Node / npm
+# ===== Node / Angular =====
 node_modules/
+dist/
+.angular/
+out-tsc/
+coverage/
+npm-debug.log*
+yarn-error.log*
 
-# macOS
+# ===== IDEs y editores =====
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.settings/
+.project
+.classpath
+.factorypath
+.sts4-cache/
+.history/
+
+# ===== Asistentes de IA =====
+.claude/
+CLAUDE.md
+.cursor/
+.cursorrules
+.gemini/
+GEMINI.md
+.junie/
+.windsurf/
+AGENTS.md
+.github/copilot-instructions.md
+.github/modernize/
+.copilot/
+.aider*
+
+# ===== Sistema operativo =====
 .DS_Store
+._*
+Thumbs.db
+desktop.ini
+
+# ===== Variables de entorno / secretos =====
+.env
+.env.*
+application-local.properties
+application-local.yml
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+credentials.json
+
+# ===== Bases de datos locales (H2 en archivo, SQLite, dumps) =====
+*.mv.db
+*.trace.db
+*.h2.db
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+*.backup
+
+# ===== Logs y temporales =====
+logs/
+tmp/
+temp/
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+*.orig
+*.rej
+pnpm-debug.log*
+lerna-debug.log*
+
+# ===== Cachés de herramientas =====
+.sass-cache/
+.eslintcache
+.stylelintcache
+.npm/
+.yarn/
+.pnpm-store/
+.cache/
+.gradle/
+build/
+.nx/
+.turbo/
+
+# ===== NetBeans =====
+nbproject/private/
+nbbuild/
+nbdist/
+.nb-gradle/
