@@ -40,7 +40,12 @@ yarn-error.log*
 
 # ===== Asistentes de IA =====
 .claude/
+.claude.json
 CLAUDE.md
+CLAUDE.local.md
+**/CLAUDE*.md
+.mcp.json
+.mcp/
 .cursor/
 .cursorrules
 .gemini/
