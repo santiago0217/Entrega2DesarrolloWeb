@@ -10,4 +10,6 @@ public interface BarberiaService {
     Barberia guardar(Barberia barberia);
     void desactivar(Long id);
     void activar(Long id);
+
+    void eliminar(Long id);
 }

@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.entities.Barberia;
 import com.example.demo.repository.BarberiaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -51,5 +52,12 @@ public class BarberiaServiceImpl implements BarberiaService {
             barberia.setActivo(true);
             barberiaRepository.save(barberia);
         }
+    }
+
+    @Override
+    @Transactional
+    public void eliminar(Long id) {
+        barberiaRepository.deleteById(id);
+        barberiaRepository.flush();
     }
 }

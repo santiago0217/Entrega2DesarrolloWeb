@@ -91,6 +91,37 @@ VALUES (2, 'Diseño de Barba', 'Perfilado a navaja con delineado y color opciona
 INSERT INTO servicio (barberia_id, nombre, descripcion, precio, activo)
 VALUES (2, 'Corte Infantil', 'Corte para niños menores de 12 años', 20000.0, true);
 
+-- Servicios adicionales (ids 9 a 18) para que la paginación de la API se note
+INSERT INTO servicio (barberia_id, nombre, descripcion, precio, activo)
+VALUES (1, 'Corte Infantil', 'Corte para niños con máquina y tijera', 18000.0, true);
+
+INSERT INTO servicio (barberia_id, nombre, descripcion, precio, activo)
+VALUES (1, 'Tinte de Barba', 'Aplicación de color para cubrir canas', 28000.0, true);
+
+INSERT INTO servicio (barberia_id, nombre, descripcion, precio, activo)
+VALUES (1, 'Limpieza Facial', 'Limpieza con vapor y mascarilla', 35000.0, true);
+
+INSERT INTO servicio (barberia_id, nombre, descripcion, precio, activo)
+VALUES (1, 'Masaje Capilar', 'Masaje relajante con aceites', 15000.0, false);
+
+INSERT INTO servicio (barberia_id, nombre, descripcion, precio, activo)
+VALUES (1, 'Paquete Novio', 'Corte, barba, limpieza facial y peinado', 90000.0, true);
+
+INSERT INTO servicio (barberia_id, nombre, descripcion, precio, activo)
+VALUES (2, 'Corte Clásico', 'Corte tradicional con tijera y acabado a navaja', 26000.0, true);
+
+INSERT INTO servicio (barberia_id, nombre, descripcion, precio, activo)
+VALUES (2, 'Afeitado Clásico', 'Afeitado con toalla caliente y navaja', 24000.0, true);
+
+INSERT INTO servicio (barberia_id, nombre, descripcion, precio, activo)
+VALUES (2, 'Mascarilla Negra', 'Limpieza de puntos negros y poros', 22000.0, true);
+
+INSERT INTO servicio (barberia_id, nombre, descripcion, precio, activo)
+VALUES (2, 'Tinte de Cabello', 'Cambio de color completo', 60000.0, false);
+
+INSERT INTO servicio (barberia_id, nombre, descripcion, precio, activo)
+VALUES (2, 'Paquete Premium', 'Corte fade, barba, mascarilla y masaje', 85000.0, true);
+
 INSERT INTO reserva (usuario_id, barbero_id, servicio_id, espacio_id, fecha, hora)
 VALUES (9, 5, 2, 1, '2027-03-15', '10:00:00');
 

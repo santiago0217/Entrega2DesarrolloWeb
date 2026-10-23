@@ -1,12 +1,4 @@
-<header class="cabecera">
-  <nav class="nav" aria-label="Principal">
-    <a routerLink="/login" routerLinkActive="activo" ariaCurrentWhenActive="page">Login</a>
-    <a routerLink="/usuarios" routerLinkActive="activo" ariaCurrentWhenActive="page">Usuarios</a>
-  </nav>
-  @if (correo(); as correoActual) {
-    <p class="bienvenida" role="status">Bienvenido, {{ correoActual }}</p>
-  }
-</header>
+<app-navbar />
 
 <main class="contenido">
   <router-outlet />
