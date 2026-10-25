@@ -1,1 +1,53 @@
-<p>Aquí irá el formulario para editar el servicio seleccionado.</p>
+<form class="formulario" novalidate (ngSubmit)="guardar()">
+  <h2>Editar servicio #{{ registro().id }}</h2>
+
+  <div class="campo">
+    <label for="editar-nombre">Nombre</label>
+    <input
+      id="editar-nombre"
+      type="text"
+      name="nombre"
+      [attr.aria-invalid]="nombreInvalido()"
+      aria-describedby="editar-nombre-error"
+      [(ngModel)]="nombre"
+    />
+    <div id="editar-nombre-error">
+      @if (nombreInvalido()) {
+        <p class="error">El nombre debe tener al menos 3 caracteres</p>
+      }
+    </div>
+  </div>
+
+  <div class="campo">
+    <label for="editar-descripcion">Descripción</label>
+    <input id="editar-descripcion" type="text" name="descripcion" [(ngModel)]="descripcion" />
+  </div>
+
+  <div class="campo">
+    <label for="editar-precio">Precio</label>
+    <input
+      id="editar-precio"
+      type="number"
+      name="precio"
+      min="1"
+      [attr.aria-invalid]="precioInvalido()"
+      aria-describedby="editar-precio-error"
+      [(ngModel)]="precio"
+    />
+    <div id="editar-precio-error">
+      @if (precioInvalido()) {
+        <p class="error">El precio debe ser mayor o igual a 1</p>
+      }
+    </div>
+  </div>
+
+  <div class="campo-check">
+    <input id="editar-activo" type="checkbox" name="activo" [(ngModel)]="activo" />
+    <label for="editar-activo">Activo</label>
+  </div>
+
+  <div class="botones">
+    <button type="submit" [disabled]="nombreInvalido() || precioInvalido()">Guardar cambios</button>
+    <button type="button" class="secundario" (click)="cancelar()">Cancelar</button>
+  </div>
+</form>

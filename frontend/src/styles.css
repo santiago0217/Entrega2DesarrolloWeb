@@ -67,7 +67,8 @@ button,
   cursor: pointer;
 }
 
-button.secundario {
+button.secundario,
+.boton.secundario {
   color: #1c2129;
   background: #e5e7eb;
 }
@@ -79,6 +80,35 @@ button.peligro {
 button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* ===== Mensajes ===== */
+.cargando {
+  font-style: italic;
+  color: #4b5563;
+}
+
+.aviso {
+  padding: 0.5rem 0.75rem;
+  background: #eef2ff;
+  border-left: 4px solid #0b4f9c;
+}
+
+/* ===== Estado de un registro (@switch) ===== */
+.estado {
+  padding: 0.125rem 0.5rem;
+  font-size: 0.875rem;
+  border-radius: 999px;
+}
+
+.estado.activo {
+  color: #14532d;
+  background: #dcfce7;
+}
+
+.estado.inactivo {
+  color: #7f1d1d;
+  background: #fee2e2;
 }
 
 .encabezado {

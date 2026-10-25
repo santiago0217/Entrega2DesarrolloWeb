@@ -1,16 +1,76 @@
+import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
 
 import { App } from './app';
 import { routes } from './app.routes';
+import { Barberia } from './models/barberia.model';
+import { Servicio } from './models/servicio.model';
 import { UsuarioService } from './services/usuario.service';
+
+const API = 'http://localhost:8081/api';
+
+const barberias: Barberia[] = [
+  {
+    id: 1,
+    nombre: 'Barberia la 45',
+    direccion: 'Calle 45',
+    telefono: '6012345678',
+    horario: '9-19',
+    activo: true,
+  },
+  {
+    id: 2,
+    nombre: 'Chamos',
+    direccion: 'Carrera 7',
+    telefono: '6019876543',
+    horario: '10-20',
+    activo: true,
+  },
+  {
+    id: 3,
+    nombre: 'Del Parque',
+    direccion: 'Calle 93',
+    telefono: '6015554433',
+    horario: '8-18',
+    activo: false,
+  },
+];
+
+const servicios: Servicio[] = [
+  {
+    id: 1,
+    nombre: 'Corte Clásico',
+    descripcion: '',
+    precio: 25000,
+    activo: true,
+    barberia: barberias[0],
+  },
+  {
+    id: 2,
+    nombre: 'Corte y Barba',
+    descripcion: '',
+    precio: 40000,
+    activo: true,
+    barberia: barberias[0],
+  },
+  {
+    id: 3,
+    nombre: 'Masaje Capilar',
+    descripcion: '',
+    precio: 15000,
+    activo: false,
+    barberia: barberias[1],
+  },
+];
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
-      providers: [provideRouter(routes)],
+      providers: [provideRouter(routes), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
   });
 
@@ -35,17 +95,45 @@ describe('App', () => {
     expect(activos[0].textContent?.trim()).toBe('Servicios');
   });
 
-  it('muestra en /servicios los 3 servicios de prueba', async () => {
+  it('muestra en /servicios la página que devuelve el backend', async () => {
     const harness = await RouterTestingHarness.create('/servicios');
+    const http = TestBed.inject(HttpTestingController);
 
+    expect(harness.routeNativeElement?.textContent).toContain('Cargando...');
+    http
+      .expectOne(`${API}/servicios?page=0&size=5`)
+      .flush({ content: servicios, number: 0, size: 5, totalPages: 4, totalElements: 18 });
+    await harness.fixture.whenStable();
+
+    const texto = harness.routeNativeElement?.textContent;
     expect(harness.routeNativeElement?.querySelectorAll('tbody tr').length).toBe(3);
-    expect(harness.routeNativeElement?.textContent).toContain('Total de registros: 3');
+    expect(texto).toContain('Total de registros: 18');
+    expect(texto).toContain('Página 1 de 4');
+    expect(texto).toContain('CORTE CLÁSICO');
+    http.verify();
   });
 
-  it('muestra en /barberias las 3 barberías de prueba', async () => {
+  it('muestra "No hay conexión con el servidor" si el backend no responde', async () => {
+    const harness = await RouterTestingHarness.create('/servicios');
+    const http = TestBed.inject(HttpTestingController);
+
+    http
+      .expectOne(`${API}/servicios?page=0&size=5`)
+      .error(new ProgressEvent('error'), { status: 0 });
+    await harness.fixture.whenStable();
+
+    expect(harness.routeNativeElement?.textContent).toContain('No hay conexión con el servidor');
+  });
+
+  it('muestra en /barberias las barberías del backend', async () => {
     const harness = await RouterTestingHarness.create('/barberias');
+    const http = TestBed.inject(HttpTestingController);
+
+    http.expectOne(`${API}/barberias`).flush(barberias);
+    await harness.fixture.whenStable();
 
     expect(harness.routeNativeElement?.querySelectorAll('tbody tr').length).toBe(3);
+    expect(harness.routeNativeElement?.textContent).toContain('Inactiva');
   });
 
   it('redirige la ruta vacía a /login', async () => {

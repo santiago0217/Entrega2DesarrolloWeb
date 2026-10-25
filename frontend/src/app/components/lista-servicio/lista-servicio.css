@@ -1,10 +1,29 @@
 .filtros {
   display: flex;
   flex-wrap: wrap;
+  align-items: end;
   gap: 1rem;
 }
 
 .ayuda {
   font-size: 0.875rem;
   color: #4b5563;
+}
+
+.acciones {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.paginacion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+app-editar-servicio {
+  display: block;
+  margin-top: 1.5rem;
 }

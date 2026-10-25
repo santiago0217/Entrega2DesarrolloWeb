@@ -2,23 +2,101 @@
 
 <p>Total de registros: {{ barberias().length }}</p>
 
-<table class="tabla">
-  <thead>
-    <tr>
-      <th scope="col">Nombre</th>
-      <th scope="col">Dirección</th>
-      <th scope="col">Teléfono</th>
-      <th scope="col">Horario</th>
-    </tr>
-  </thead>
-  <tbody>
-    @for (b of barberias(); track b.id) {
+<div role="status">
+  @if (aviso()) {
+    <p class="aviso">{{ aviso() }}</p>
+  }
+</div>
+
+@if (cargando()) {
+  <p class="cargando">Cargando...</p>
+} @else if (error()) {
+  <p class="error" role="alert">{{ error() }}</p>
+} @else if (barberias().length === 0) {
+  <p>No hay registros</p>
+} @else {
+  <table class="tabla">
+    <thead>
       <tr>
-        <td>{{ b.nombre }}</td>
-        <td>{{ b.direccion }}</td>
-        <td>{{ b.telefono }}</td>
-        <td>{{ b.horario }}</td>
+        <th scope="col">Nombre</th>
+        <th scope="col">Dirección</th>
+        <th scope="col">Teléfono</th>
+        <th scope="col">Horario</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Acciones</th>
       </tr>
+    </thead>
+    <tbody>
+      @for (b of barberias(); track b.id) {
+        <tr>
+          <td>{{ b.nombre }}</td>
+          <td>{{ b.direccion }}</td>
+          <td>{{ b.telefono }}</td>
+          <td>{{ b.horario }}</td>
+          <td>
+            @switch (b.activo) {
+              @case (true) {
+                <span class="estado activo">Activa</span>
+              }
+              @case (false) {
+                <span class="estado inactivo">Inactiva</span>
+              }
+            }
+          </td>
+          <td class="acciones">
+            <button type="button" class="secundario" (click)="cambiarEstado(b)">
+              {{ b.activo ? 'Desactivar' : 'Activar' }}
+            </button>
+            <button type="button" class="peligro" (click)="eliminar(b)">Eliminar</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
+
+<section class="secciones">
+  <!-- GET por id -->
+  <form class="formulario" (ngSubmit)="consultar()">
+    <h2>Consultar por id</h2>
+    <div class="campo">
+      <label for="barberia-id">Id de la barbería</label>
+      <input id="barberia-id" type="number" min="1" name="idBuscado" [(ngModel)]="idBuscado" />
+    </div>
+    <button type="submit" [disabled]="idBuscado() === null">Consultar</button>
+
+    @if (errorConsulta()) {
+      <p class="error" role="alert">{{ errorConsulta() }}</p>
     }
-  </tbody>
-</table>
+    @if (encontrada(); as b) {
+      <p>
+        <strong>{{ b.nombre }}</strong
+        ><br />
+        {{ b.direccion }} - {{ b.telefono }}<br />
+        {{ b.horario }}
+      </p>
+    }
+  </form>
+
+  <!-- POST -->
+  <form class="formulario" (ngSubmit)="crear()">
+    <h2>Nueva barbería</h2>
+    <div class="campo">
+      <label for="barberia-nombre">Nombre</label>
+      <input id="barberia-nombre" type="text" name="nombre" [(ngModel)]="nombre" />
+    </div>
+    <div class="campo">
+      <label for="barberia-direccion">Dirección</label>
+      <input id="barberia-direccion" type="text" name="direccion" [(ngModel)]="direccion" />
+    </div>
+    <div class="campo">
+      <label for="barberia-telefono">Teléfono (solo números)</label>
+      <input id="barberia-telefono" type="tel" name="telefono" [(ngModel)]="telefono" />
+    </div>
+    <div class="campo">
+      <label for="barberia-horario">Horario</label>
+      <input id="barberia-horario" type="text" name="horario" [(ngModel)]="horario" />
+    </div>
+    <button type="submit" [disabled]="formularioIncompleto()">Crear barbería</button>
+  </form>
+</section>

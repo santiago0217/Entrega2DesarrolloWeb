@@ -12,6 +12,7 @@
       name="nombre"
       [(ngModel)]="nombre"
       (input)="contarLetras($event)"
+      (keyup.enter)="buscar()"
     />
   </div>
 
@@ -23,28 +24,77 @@
       <option value="premium">Más de $25.000</option>
     </select>
   </div>
+
+  <button type="button" (click)="buscar()">Buscar</button>
 </div>
-<p class="ayuda">Buscando "{{ nombre() }}" ({{ letrasEscritas() }} letras) - filtro: {{ filtroPrecio() }}</p>
+<p class="ayuda">
+  Buscando "{{ nombre() }}" ({{ letrasEscritas() }} letras) - filtro: {{ filtroPrecio() }}
+</p>
 
 <p>Total de registros: {{ total() }}</p>
 
-<table class="tabla">
-  <thead>
-    <tr>
-      <th scope="col">Nombre</th>
-      <th scope="col">Barbería</th>
-      <th scope="col">Precio</th>
-      <th scope="col">Estado</th>
-    </tr>
-  </thead>
-  <tbody>
-    @for (s of servicios(); track s.id) {
+<div role="status">
+  @if (aviso()) {
+    <p class="aviso">{{ aviso() }}</p>
+  }
+</div>
+
+@if (cargando()) {
+  <p class="cargando">Cargando...</p>
+} @else if (error()) {
+  <p class="error" role="alert">{{ error() }}</p>
+} @else if (servicios().length === 0) {
+  <p>No hay registros</p>
+} @else {
+  <table class="tabla">
+    <thead>
       <tr>
-        <td>{{ s.nombre }}</td>
-        <td>{{ s.barberia.nombre }}</td>
-        <td>{{ s.precio }}</td>
-        <td>{{ s.activo ? 'Activo' : 'Inactivo' }}</td>
+        <th scope="col">Nombre</th>
+        <th scope="col">Barbería</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Acciones</th>
       </tr>
-    }
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      @for (s of servicios(); track s.id) {
+        <tr>
+          <td>{{ s.nombre | uppercase }}</td>
+          <td>{{ s.barberia.nombre }}</td>
+          <td>{{ s.precio | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</td>
+          <td>
+            @switch (s.activo) {
+              @case (true) {
+                <span class="estado activo">Activo</span>
+              }
+              @case (false) {
+                <span class="estado inactivo">Inactivo</span>
+              }
+            }
+          </td>
+          <td class="acciones">
+            <button type="button" class="secundario" (click)="editar(s)">Editar</button>
+            <button type="button" class="peligro" (click)="eliminar(s)">Eliminar</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="paginacion">
+    <button type="button" [disabled]="pagina() === 0" (click)="anterior()">Anterior</button>
+    <span>Página {{ pagina() + 1 }} de {{ totalPaginas() }}</span>
+    <button type="button" [disabled]="pagina() + 1 >= totalPaginas()" (click)="siguiente()">
+      Siguiente
+    </button>
+  </div>
+}
+
+<!-- Comunicación padre-hijo: se envía el seleccionado y se recibe el editado -->
+@if (seleccionado(); as seleccionado) {
+  <app-editar-servicio
+    [registro]="seleccionado"
+    (guardado)="actualizar($event)"
+    (cancelado)="cancelarEdicion()"
+  />
+}
