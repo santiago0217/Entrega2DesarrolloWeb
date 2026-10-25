@@ -52,3 +52,56 @@ body {
   margin: 0;
   color: #a4161a;
 }
+
+/* ===== Botones ===== */
+button,
+.boton {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font: inherit;
+  color: #ffffff;
+  text-decoration: none;
+  background: #0b4f9c;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button.secundario {
+  color: #1c2129;
+  background: #e5e7eb;
+}
+
+button.peligro {
+  background: #a4161a;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.encabezado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+/* ===== Tablas ===== */
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla th,
+.tabla td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid #c9ced6;
+}
+
+.tabla th {
+  background: #f3f4f6;
+}

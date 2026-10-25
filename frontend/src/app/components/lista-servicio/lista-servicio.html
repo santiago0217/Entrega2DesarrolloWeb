@@ -1,0 +1,50 @@
+<div class="encabezado">
+  <h1>Servicios</h1>
+  <a class="boton" routerLink="/servicios/nuevo">Nuevo servicio</a>
+</div>
+
+<div class="filtros">
+  <div class="campo">
+    <label for="buscar-nombre">Buscar por nombre</label>
+    <input
+      id="buscar-nombre"
+      type="search"
+      name="nombre"
+      [(ngModel)]="nombre"
+      (input)="contarLetras($event)"
+    />
+  </div>
+
+  <div class="campo">
+    <label for="filtro-precio">Precio</label>
+    <select id="filtro-precio" name="filtroPrecio" [(ngModel)]="filtroPrecio">
+      <option value="todos">Todos</option>
+      <option value="economicos">Hasta $25.000</option>
+      <option value="premium">Más de $25.000</option>
+    </select>
+  </div>
+</div>
+<p class="ayuda">Buscando "{{ nombre() }}" ({{ letrasEscritas() }} letras) - filtro: {{ filtroPrecio() }}</p>
+
+<p>Total de registros: {{ total() }}</p>
+
+<table class="tabla">
+  <thead>
+    <tr>
+      <th scope="col">Nombre</th>
+      <th scope="col">Barbería</th>
+      <th scope="col">Precio</th>
+      <th scope="col">Estado</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (s of servicios(); track s.id) {
+      <tr>
+        <td>{{ s.nombre }}</td>
+        <td>{{ s.barberia.nombre }}</td>
+        <td>{{ s.precio }}</td>
+        <td>{{ s.activo ? 'Activo' : 'Inactivo' }}</td>
+      </tr>
+    }
+  </tbody>
+</table>

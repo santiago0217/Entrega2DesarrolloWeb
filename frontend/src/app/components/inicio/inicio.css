@@ -1,0 +1,23 @@
+.contador {
+  max-width: 20rem;
+  padding: 1rem;
+  text-align: center;
+  border: 1px solid #c9ced6;
+  border-radius: 8px;
+}
+
+.contador h2 {
+  margin: 0;
+}
+
+.valor {
+  margin: 0.5rem 0;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.acciones {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}

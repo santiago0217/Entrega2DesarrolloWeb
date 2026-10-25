@@ -1,0 +1,24 @@
+<h1>Barberías</h1>
+
+<p>Total de registros: {{ barberias().length }}</p>
+
+<table class="tabla">
+  <thead>
+    <tr>
+      <th scope="col">Nombre</th>
+      <th scope="col">Dirección</th>
+      <th scope="col">Teléfono</th>
+      <th scope="col">Horario</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (b of barberias(); track b.id) {
+      <tr>
+        <td>{{ b.nombre }}</td>
+        <td>{{ b.direccion }}</td>
+        <td>{{ b.telefono }}</td>
+        <td>{{ b.horario }}</td>
+      </tr>
+    }
+  </tbody>
+</table>

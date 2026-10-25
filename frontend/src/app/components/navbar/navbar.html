@@ -1,0 +1,21 @@
+<header class="navbar">
+  <div class="marca" (mouseenter)="mostrarMensaje()" (mouseleave)="ocultarMensaje()">
+    <img [src]="logo" alt="" width="36" height="36" />
+    <span class="titulo">{{ titulo }}</span>
+    @if (mensaje()) {
+      <span class="mensaje">{{ mensaje() }}</span>
+    }
+  </div>
+
+  <nav aria-label="Principal">
+    @for (enlace of enlaces; track enlace.ruta) {
+      <a
+        [routerLink]="enlace.ruta"
+        routerLinkActive
+        #rla="routerLinkActive"
+        [class.activo]="rla.isActive"
+        >{{ enlace.texto }}</a
+      >
+    }
+  </nav>
+</header>

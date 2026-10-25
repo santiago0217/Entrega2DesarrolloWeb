@@ -1,0 +1,14 @@
+<h1>{{ titulo }}</h1>
+<p>Hola, <strong>{{ usuario() }}</strong>.</p>
+
+<section class="contador" aria-labelledby="contador-titulo">
+  <h2 id="contador-titulo">Contador de visitas</h2>
+  <p class="valor" aria-live="polite">{{ visitas() }}</p>
+
+  <div class="acciones">
+    <button type="button" (click)="sumar()">Sumar visita</button>
+    <button type="button" class="secundario" [disabled]="visitas() === 0" (click)="reiniciar()">
+      Reiniciar
+    </button>
+  </div>
+</section>
