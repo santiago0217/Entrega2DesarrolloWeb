@@ -1,5 +1,5 @@
 <form class="formulario" novalidate (ngSubmit)="guardar()">
-  <h2>Nuevo usuario</h2>
+  <h2>{{ titulo() || (editando() ? 'Editar usuario' : 'Nuevo usuario') }}</h2>
 
   <div class="campo">
     <label for="usuario-nombre">Nombre</label>
@@ -9,13 +9,15 @@
       name="nombre"
       autocomplete="name"
       required
-      [attr.aria-invalid]="intentoGuardar() && nombreVacio()"
+      [attr.aria-invalid]="intentoGuardar() && (nombreVacio() || nombreInvalido())"
       aria-describedby="usuario-nombre-error"
       [(ngModel)]="nombre"
     />
     <div id="usuario-nombre-error" role="alert">
       @if (intentoGuardar() && nombreVacio()) {
         <p class="error">Debe ingresar el nombre del usuario</p>
+      } @else if (intentoGuardar() && nombreInvalido()) {
+        <p class="error">El nombre no puede contener números ni caracteres especiales</p>
       }
     </div>
   </div>
@@ -28,13 +30,15 @@
       name="correo"
       autocomplete="email"
       required
-      [attr.aria-invalid]="intentoGuardar() && correoVacio()"
+      [attr.aria-invalid]="intentoGuardar() && (correoVacio() || correoInvalido())"
       aria-describedby="usuario-correo-error"
       [(ngModel)]="correo"
     />
     <div id="usuario-correo-error" role="alert">
       @if (intentoGuardar() && correoVacio()) {
         <p class="error">Debe ingresar el correo del usuario</p>
+      } @else if (intentoGuardar() && correoInvalido()) {
+        <p class="error">El correo debe tener un formato válido y terminar en .com</p>
       }
     </div>
   </div>
@@ -46,8 +50,18 @@
       type="password"
       name="password"
       autocomplete="new-password"
+      [attr.aria-invalid]="intentoGuardar() && passwordInvalido()"
+      aria-describedby="usuario-password-error"
       [(ngModel)]="password"
     />
+    <div id="usuario-password-error" role="alert">
+      @if (editando()) {
+        <p class="ayuda">Déjala vacía para conservar la contraseña actual.</p>
+      }
+      @if (intentoGuardar() && passwordInvalido()) {
+        <p class="error">La contraseña debe tener al menos 4 caracteres</p>
+      }
+    </div>
   </div>
 
   <div class="campo">
@@ -57,23 +71,62 @@
       type="tel"
       name="telefono"
       autocomplete="tel"
+      [attr.aria-invalid]="intentoGuardar() && telefonoInvalido()"
+      aria-describedby="usuario-telefono-error"
       [(ngModel)]="telefono"
     />
-  </div>
-
-  <div class="campo">
-    <label for="usuario-rol">Rol</label>
-    <select id="usuario-rol" name="rol" [(ngModel)]="rol">
-      @for (opcion of roles; track opcion) {
-        <option [value]="opcion">{{ opcion }}</option>
+    <div id="usuario-telefono-error" role="alert">
+      @if (intentoGuardar() && telefonoInvalido()) {
+        <p class="error">El teléfono solo debe contener números (entre 7 y 15 dígitos)</p>
       }
-    </select>
+    </div>
   </div>
 
-  <div class="campo-check">
-    <input id="usuario-activo" type="checkbox" name="activo" [(ngModel)]="activo" />
-    <label for="usuario-activo">Activo</label>
-  </div>
+  @if (roles().length > 1) {
+    <div class="campo">
+      <label for="usuario-rol">Rol</label>
+      <select id="usuario-rol" name="rol" [(ngModel)]="rol">
+        @for (opcion of roles(); track opcion) {
+          <option [value]="opcion">{{ opcion }}</option>
+        }
+      </select>
+    </div>
+  }
 
-  <button type="submit">Guardar usuario</button>
+  @if (pideBarberia()) {
+    <div class="campo">
+      <label for="usuario-barberia">Barbería</label>
+      <select
+        id="usuario-barberia"
+        name="barberia"
+        [attr.aria-invalid]="intentoGuardar() && barberiaFaltante()"
+        aria-describedby="usuario-barberia-error"
+        [(ngModel)]="barberiaId"
+      >
+        <option [ngValue]="null" disabled>Seleccione una barbería</option>
+        @for (b of barberias(); track b.id) {
+          <option [ngValue]="b.id">{{ b.nombre }}</option>
+        }
+      </select>
+      <div id="usuario-barberia-error" role="alert">
+        @if (intentoGuardar() && barberiaFaltante()) {
+          <p class="error">Debes asignar una barbería a los barberos y gerentes</p>
+        }
+      </div>
+    </div>
+  }
+
+  @if (roles().length > 1) {
+    <div class="campo-check">
+      <input id="usuario-activo" type="checkbox" name="activo" [(ngModel)]="activo" />
+      <label for="usuario-activo">Activo</label>
+    </div>
+  }
+
+  <div class="botones">
+    <button type="submit">{{ editando() ? 'Guardar cambios' : 'Guardar usuario' }}</button>
+    @if (editando()) {
+      <button type="button" class="secundario" (click)="cancelar()">Cancelar</button>
+    }
+  </div>
 </form>

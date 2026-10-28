@@ -1,0 +1,21 @@
+<h1>Barberías disponibles</h1>
+
+@if (error()) {
+  <p class="error" role="alert">{{ error() }}</p>
+} @else if (barberias(); as barberias) {
+  <div class="tarjetas">
+    @for (b of barberias; track b.id) {
+      <section class="tarjeta">
+        <h2>{{ b.nombre }}</h2>
+        <p><strong>Dirección:</strong> {{ b.direccion }}</p>
+        <p><strong>Teléfono:</strong> {{ b.telefono }}</p>
+        <p><strong>Horario:</strong> {{ b.horario }}</p>
+        <a class="boton" [routerLink]="['/cliente/barberias', b.id]">Ver servicios</a>
+      </section>
+    } @empty {
+      <p class="aviso">No hay barberías disponibles por el momento.</p>
+    }
+  </div>
+} @else {
+  <p class="cargando">Cargando...</p>
+}

@@ -1,0 +1,65 @@
+<form class="formulario" novalidate (ngSubmit)="guardar()">
+  @if (reservaFija(); as r) {
+    <p>
+      <strong>Servicio:</strong> {{ r.servicio.nombre }}<br />
+      <strong>Barbero:</strong> {{ r.barbero.nombre }}<br />
+      <strong>Fecha:</strong> {{ r.fecha }} a las {{ r.hora.slice(0, 5) }}
+    </p>
+    <p><strong>Monto:</strong> {{ monto() | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</p>
+  } @else {
+    <div class="campo">
+      <label for="pago-reserva">Reserva</label>
+      <select
+        id="pago-reserva"
+        name="reserva"
+        [ngModel]="reservaId()"
+        (ngModelChange)="elegirReserva($event)"
+      >
+        <option [ngValue]="null" disabled>-- Seleccionar reserva --</option>
+        @for (r of reservas(); track r.id) {
+          <option [ngValue]="r.id">
+            #{{ r.id }} - {{ r.usuario.nombre }} - {{ r.servicio.nombre }} ({{ r.fecha }})
+          </option>
+        }
+      </select>
+      @if (intentoGuardar() && reservaId() === null) {
+        <p class="error" role="alert">Debe seleccionar una reserva</p>
+      }
+    </div>
+
+    <div class="campo">
+      <label for="pago-monto">Monto</label>
+      <input id="pago-monto" type="number" min="1" step="0.01" name="monto" [(ngModel)]="monto" />
+      @if (intentoGuardar() && montoInvalido()) {
+        <p class="error" role="alert">El monto debe ser mayor a 0</p>
+      }
+    </div>
+  }
+
+  <div class="campo">
+    <label for="pago-metodo">Método de pago</label>
+    <select id="pago-metodo" name="metodoPago" [(ngModel)]="metodoPago">
+      <option value="" disabled>-- Seleccionar método --</option>
+      @for (m of metodos; track m) {
+        <option [value]="m">{{ m }}</option>
+      }
+    </select>
+    @if (intentoGuardar() && metodoPago() === '') {
+      <p class="error" role="alert">El método de pago es obligatorio</p>
+    }
+  </div>
+
+  <div class="campo">
+    <label for="pago-estado">Estado</label>
+    <select id="pago-estado" name="estado" [(ngModel)]="estado">
+      @for (e of estados; track e) {
+        <option [value]="e">{{ e }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="botones">
+    <button type="submit">{{ reservaFija() ? 'Confirmar pago' : 'Guardar pago' }}</button>
+    <button type="button" class="secundario" (click)="cancelar()">Cancelar</button>
+  </div>
+</form>

@@ -1,0 +1,49 @@
+<h1>Agenda</h1>
+<p class="subtitulo">{{ barberia }}</p>
+
+<form class="filtros" (ngSubmit)="consultar()">
+  <div class="campo">
+    <label for="agenda-fecha">Fecha</label>
+    <input id="agenda-fecha" type="date" name="fecha" [(ngModel)]="fecha" />
+  </div>
+  <button type="submit">Consultar</button>
+</form>
+
+@if (cargando()) {
+  <p class="cargando">Cargando...</p>
+} @else if (error()) {
+  <p class="error" role="alert">{{ error() }}</p>
+} @else {
+  <p class="aviso">
+    Ocupación del <strong>{{ fechaConsultada() }}</strong>: {{ reservas().length }}
+    {{ reservas().length === 1 ? 'reserva' : 'reservas' }}
+  </p>
+  <div class="tabla-contenedor">
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th scope="col">Hora</th>
+          <th scope="col">Barbero</th>
+          <th scope="col">Cliente</th>
+          <th scope="col">Servicio</th>
+          <th scope="col">Espacio</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (r of reservas(); track r.id) {
+          <tr>
+            <td>{{ r.hora.slice(0, 5) }}</td>
+            <td>{{ r.barbero.nombre }}</td>
+            <td>{{ r.usuario.nombre }}</td>
+            <td>{{ r.servicio.nombre }}</td>
+            <td>{{ r.espacio.nombre }}</td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="5">No hay reservas para este día.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

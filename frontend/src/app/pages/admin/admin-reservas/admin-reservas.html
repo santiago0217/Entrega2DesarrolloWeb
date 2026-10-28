@@ -1,0 +1,87 @@
+<div class="encabezado">
+  <h1>Listado de reservas</h1>
+  <a class="boton" routerLink="/admin/reservas/nueva">Nueva reserva</a>
+</div>
+
+<form class="filtros" (ngSubmit)="cargar()">
+  <div class="campo">
+    <label for="filtro-cliente">Cliente</label>
+    <select id="filtro-cliente" name="usuarioId" [(ngModel)]="usuarioId">
+      <option [ngValue]="null">-- Todos --</option>
+      @for (u of usuarios(); track u.id) {
+        <option [ngValue]="u.id">{{ u.nombre }}</option>
+      }
+    </select>
+  </div>
+  <button type="submit">Filtrar</button>
+  <button type="button" class="secundario" (click)="verTodas()">Ver todas</button>
+</form>
+
+<div role="status">
+  @if (aviso()) {
+    <p class="aviso">{{ aviso() }}</p>
+  }
+</div>
+
+@if (cargando()) {
+  <p class="cargando">Cargando...</p>
+} @else if (error()) {
+  <p class="error" role="alert">{{ error() }}</p>
+} @else {
+  <div class="tabla-contenedor">
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Cliente</th>
+          <th scope="col">Barbero</th>
+          <th scope="col">Servicio</th>
+          <th scope="col">Espacio</th>
+          <th scope="col">Fecha</th>
+          <th scope="col">Pago</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of reservas(); track item.reserva.id) {
+          <tr>
+            <td>{{ item.reserva.id }}</td>
+            <td>{{ item.reserva.usuario.nombre }}</td>
+            <td>{{ item.reserva.barbero.nombre }}</td>
+            <td>{{ item.reserva.servicio.nombre }}</td>
+            <td>{{ item.reserva.espacio.nombre }}</td>
+            <td>{{ item.reserva.fecha }} {{ item.reserva.hora.slice(0, 5) }}</td>
+            <td>
+              @if (item.pago; as pago) {
+                <span
+                  class="estado"
+                  [class.activo]="pago.estado === 'COMPLETADO'"
+                  [class.pendiente]="pago.estado !== 'COMPLETADO'"
+                  >{{ pago.estado }}</span
+                >
+              } @else {
+                <span class="estado neutro">SIN PAGO</span>
+              }
+            </td>
+            <td class="acciones">
+              @if (item.pago; as pago) {
+                <a class="boton secundario" [routerLink]="['/admin/pagos', pago.id, 'editar']">Ver pago</a>
+              } @else {
+                <a class="boton" routerLink="/admin/pagos/nuevo" [queryParams]="{ reservaId: item.reserva.id }"
+                  >Pagar</a
+                >
+              }
+              <a class="boton secundario" [routerLink]="['/admin/reservas', item.reserva.id]">Ver</a>
+              <a class="boton secundario" [routerLink]="['/admin/reservas', item.reserva.id, 'editar']">Editar</a>
+              <button type="button" class="peligro" (click)="eliminar(item)">Eliminar</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="8">No hay reservas registradas.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

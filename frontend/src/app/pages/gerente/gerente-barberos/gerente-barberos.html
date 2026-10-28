@@ -1,0 +1,70 @@
+<div class="encabezado">
+  <h1>Mis barberos</h1>
+  <button type="button" (click)="nuevo()">Nuevo barbero</button>
+</div>
+<p class="subtitulo">{{ barberia }}</p>
+
+<div role="status">
+  @if (aviso()) {
+    <p class="aviso">{{ aviso() }}</p>
+  }
+</div>
+
+@if (formularioAbierto()) {
+  <section class="formulario-seccion">
+    <app-usuario-form
+      [registro]="seleccionado()"
+      [titulo]="seleccionado() ? 'Editar barbero' : 'Nuevo barbero'"
+      [roles]="roles"
+      (usuarioGuardado)="guardar($event)"
+      (cancelado)="cerrarFormulario()"
+    />
+    @if (!seleccionado()) {
+      <p><button type="button" class="secundario" (click)="cerrarFormulario()">Cerrar</button></p>
+    }
+  </section>
+}
+
+@if (cargando()) {
+  <p class="cargando">Cargando...</p>
+} @else if (error()) {
+  <p class="error" role="alert">{{ error() }}</p>
+} @else {
+  <div class="tabla-contenedor">
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">Correo</th>
+          <th scope="col">Teléfono</th>
+          <th scope="col">Estado</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (b of barberos(); track b.id) {
+          <tr>
+            <td>{{ b.nombre }}</td>
+            <td>{{ b.correo }}</td>
+            <td>{{ b.telefono }}</td>
+            <td>
+              <span class="estado" [class.activo]="b.activo" [class.inactivo]="!b.activo">
+                {{ b.activo ? 'Activo' : 'Inactivo' }}
+              </span>
+            </td>
+            <td class="acciones">
+              <button type="button" class="secundario" (click)="editar(b)">Editar</button>
+              <button type="button" [class.peligro]="b.activo" (click)="cambiarEstado(b)">
+                {{ b.activo ? 'Desactivar' : 'Activar' }}
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="5">Tu barbería todavía no tiene barberos.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

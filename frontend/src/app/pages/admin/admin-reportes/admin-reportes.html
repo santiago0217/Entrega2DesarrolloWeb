@@ -1,0 +1,37 @@
+<h1>Barberías por ingresos</h1>
+<p class="subtitulo">Suma de los pagos completados de cada barbería.</p>
+
+<form class="filtros" (ngSubmit)="consultar()">
+  <div class="campo">
+    <label for="reporte-minimo">Ingresos mayores a</label>
+    <input id="reporte-minimo" type="number" min="0" step="1000" name="minimo" [(ngModel)]="minimo" />
+  </div>
+  <button type="submit">Consultar</button>
+</form>
+
+@if (cargando()) {
+  <p class="cargando">Cargando...</p>
+} @else if (error()) {
+  <p class="error" role="alert">{{ error() }}</p>
+} @else {
+  <table class="tabla">
+    <thead>
+      <tr>
+        <th scope="col">Barbería</th>
+        <th scope="col">Total recaudado</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (r of resumen(); track r.nombre) {
+        <tr>
+          <td>{{ r.nombre }}</td>
+          <td>{{ r.total | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="2">Ninguna barbería supera ese monto.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}

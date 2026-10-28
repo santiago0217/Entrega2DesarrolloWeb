@@ -1,0 +1,44 @@
+<form class="formulario" novalidate (ngSubmit)="guardar()">
+  <h2>{{ editando() ? 'Editar espacio #' + registro()?.id : 'Nuevo espacio' }}</h2>
+
+  @if (barberias().length > 0) {
+    <div class="campo">
+      <label for="espacio-barberia">Barbería</label>
+      <select id="espacio-barberia" name="barberia" [(ngModel)]="barberiaId">
+        <option [ngValue]="null" disabled>Seleccione una barbería</option>
+        @for (b of barberias(); track b.id) {
+          <option [ngValue]="b.id">{{ b.nombre }}</option>
+        }
+      </select>
+      @if (intentoGuardar() && barberiaFaltante()) {
+        <p class="error" role="alert">Debes seleccionar una barbería</p>
+      }
+    </div>
+  }
+
+  <div class="campo">
+    <label for="espacio-nombre">Nombre</label>
+    <input id="espacio-nombre" type="text" name="nombre" [(ngModel)]="nombre" />
+    @if (intentoGuardar() && nombreVacio()) {
+      <p class="error" role="alert">El nombre es obligatorio</p>
+    }
+  </div>
+
+  <div class="campo">
+    <label for="espacio-capacidad">Capacidad</label>
+    <input id="espacio-capacidad" type="number" min="1" name="capacidad" [(ngModel)]="capacidad" />
+    @if (intentoGuardar() && capacidadInvalida()) {
+      <p class="error" role="alert">La capacidad debe ser mayor a 0</p>
+    }
+  </div>
+
+  <div class="campo-check">
+    <input id="espacio-activo" type="checkbox" name="activo" [(ngModel)]="activo" />
+    <label for="espacio-activo">Activo</label>
+  </div>
+
+  <div class="botones">
+    <button type="submit">Guardar espacio</button>
+    <button type="button" class="secundario" (click)="cancelar()">Cancelar</button>
+  </div>
+</form>

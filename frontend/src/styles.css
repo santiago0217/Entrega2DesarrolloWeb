@@ -135,3 +135,109 @@ button:disabled {
 .tabla th {
   background: #f3f4f6;
 }
+
+.estado.pendiente {
+  color: #713f12;
+  background: #fef9c3;
+}
+
+.estado.neutro {
+  color: #1c2129;
+  background: #e5e7eb;
+}
+
+/* ===== Disposición común de las páginas ===== */
+.subtitulo {
+  margin-top: 0;
+  color: #4b5563;
+}
+
+.acciones,
+.botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.tabla-contenedor {
+  overflow-x: auto;
+}
+
+.formulario-seccion {
+  margin-top: 1.5rem;
+}
+
+.formulario textarea {
+  padding: 0.5rem;
+  font: inherit;
+  border: 1px solid #6b7280;
+  border-radius: 4px;
+}
+
+/* ===== Tarjetas de los paneles ===== */
+.tarjetas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.tarjeta {
+  padding: 1rem;
+  border: 1px solid #c9ced6;
+  border-radius: 8px;
+}
+
+.tarjeta h2,
+.tarjeta h3 {
+  margin-top: 0;
+}
+
+.tarjeta .valor {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.tarjeta .etiqueta {
+  margin: 0;
+  color: #4b5563;
+}
+
+.enlaces {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.enlaces a {
+  text-align: center;
+}
+
+/* ===== Alertas ===== */
+.alerta {
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+}
+
+.alerta.advertencia {
+  color: #713f12;
+  background: #fef9c3;
+}
+
+.alerta.peligro {
+  color: #7f1d1d;
+  background: #fee2e2;
+}
+
+.alerta.exito {
+  color: #14532d;
+  background: #dcfce7;
+}

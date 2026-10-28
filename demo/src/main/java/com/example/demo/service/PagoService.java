@@ -11,6 +11,7 @@ public interface PagoService {
     Collection<Pago> findAll();
     List<Pago> findByBarberiaId(Long barberiaId);
     List<ResumenBarberia> buscarBarberiasConIngresosMayoresA(Double minimo);
+    Double totalRecaudado(Long barberiaId);
     Pago save(Pago pago);
     void deleteById(Integer id);
 }

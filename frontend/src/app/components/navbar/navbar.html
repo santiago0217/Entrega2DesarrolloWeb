@@ -8,14 +8,23 @@
   </div>
 
   <nav aria-label="Principal">
-    @for (enlace of enlaces; track enlace.ruta) {
+    @for (enlace of enlaces(); track enlace.ruta) {
       <a
         [routerLink]="enlace.ruta"
         routerLinkActive
+        [routerLinkActiveOptions]="{ exact: true }"
         #rla="routerLinkActive"
         [class.activo]="rla.isActive"
         >{{ enlace.texto }}</a
       >
     }
   </nav>
+
+  @if (usuario(); as u) {
+    <div class="cuenta">
+      <span>{{ u.nombre }}</span>
+      <span class="rol">{{ u.rol }}</span>
+      <button type="button" class="salir" (click)="salir()">Salir</button>
+    </div>
+  }
 </header>

@@ -44,6 +44,14 @@ public class PagoServiceImpl implements PagoService {
     }
 
     @Override
+    public Double totalRecaudado(Long barberiaId) {
+        return findByBarberiaId(barberiaId).stream()
+                .filter(pago -> "COMPLETADO".equals(pago.getEstado()))
+                .mapToDouble(Pago::getMonto)
+                .sum();
+    }
+
+    @Override
     public Pago save(Pago pago) {
         if (reservaYaTienePago(pago)) {
             throw new PagoDuplicadoException("La reserva seleccionada ya tiene un pago registrado.");

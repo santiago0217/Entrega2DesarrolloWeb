@@ -1,14 +1,100 @@
-<h1>Gestión de usuarios</h1>
+<div class="encabezado">
+  <h1>Gestión de usuarios</h1>
+  <button type="button" (click)="nuevo()">Nuevo usuario</button>
+</div>
 
-<app-usuario-form (usuarioGuardado)="guardarUsuario($event)" />
+<div class="tarjetas">
+  @for (r of resumenRoles(); track r.rol) {
+    <div class="tarjeta">
+      <p class="valor">{{ r.total }}</p>
+      <p class="etiqueta">{{ r.rol }}</p>
+    </div>
+  }
+</div>
+
+<form class="filtros" (ngSubmit)="cargar()">
+  <div class="campo">
+    <label for="filtro-rol">Filtrar por rol</label>
+    <select id="filtro-rol" name="rol" [(ngModel)]="rolFiltro">
+      <option [ngValue]="null">-- Todos --</option>
+      @for (r of roles; track r) {
+        <option [ngValue]="r">{{ r }}</option>
+      }
+    </select>
+  </div>
+  <button type="submit">Filtrar</button>
+  <button type="button" class="secundario" (click)="verTodos()">Ver todos</button>
+</form>
+
+<div role="status">
+  @if (aviso()) {
+    <p class="aviso">{{ aviso() }}</p>
+  }
+</div>
+
+@if (formularioAbierto()) {
+  <section class="formulario-seccion">
+    <app-usuario-form
+      [registro]="seleccionado()"
+      [barberias]="barberiasActivas()"
+      (usuarioGuardado)="guardarUsuario($event)"
+      (cancelado)="cerrarFormulario()"
+    />
+    @if (!seleccionado()) {
+      <p><button type="button" class="secundario" (click)="cerrarFormulario()">Cerrar</button></p>
+    }
+  </section>
+}
 
 <section class="lista" aria-labelledby="lista-titulo">
   <h2 id="lista-titulo">Usuarios registrados</h2>
-  <ul>
-    @for (u of usuarios(); track u.id ?? u.correo) {
-      <li>{{ u.nombre }} - {{ u.correo }} - {{ u.rol }}</li>
-    } @empty {
-      <li>Aún no hay usuarios registrados.</li>
-    }
-  </ul>
+  @if (cargando()) {
+    <p class="cargando">Cargando...</p>
+  } @else if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  } @else {
+    <div class="tabla-contenedor">
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Teléfono</th>
+            <th scope="col">Rol</th>
+            <th scope="col">Barbería</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (u of usuarios(); track u.id) {
+            <tr>
+              <td>{{ u.id }}</td>
+              <td>{{ u.nombre }}</td>
+              <td>{{ u.correo }}</td>
+              <td>{{ u.telefono }}</td>
+              <td>{{ u.rol }}</td>
+              <td>{{ u.barberia?.nombre ?? '-' }}</td>
+              <td>
+                <span class="estado" [class.activo]="u.activo" [class.inactivo]="!u.activo">
+                  {{ u.activo ? 'Activo' : 'Inactivo' }}
+                </span>
+              </td>
+              <td class="acciones">
+                <button type="button" class="secundario" (click)="editar(u)">Editar</button>
+                <button type="button" [class.peligro]="u.activo" (click)="cambiarEstado(u)">
+                  {{ u.activo ? 'Desactivar' : 'Activar' }}
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="8">Aún no hay usuarios registrados.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
 </section>

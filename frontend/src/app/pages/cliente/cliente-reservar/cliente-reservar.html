@@ -1,0 +1,16 @@
+<h1>Reservar servicio</h1>
+
+<div role="alert">
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+</div>
+
+@if (opciones(); as opciones) {
+  @if (opciones.servicio; as servicio) {
+    <p><strong>Precio:</strong> {{ servicio.precio | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</p>
+  }
+  <app-reserva-form [opciones]="opciones" (guardado)="reservar($event)" (cancelado)="volver()" />
+} @else if (!error()) {
+  <p class="cargando">Cargando...</p>
+}

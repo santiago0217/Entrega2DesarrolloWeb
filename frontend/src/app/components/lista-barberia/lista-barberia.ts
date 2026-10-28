@@ -26,7 +26,8 @@ export class ListaBarberia {
   protected readonly encontrada = signal<Barberia | null>(null);
   protected readonly errorConsulta = signal('');
 
-  // Campos del formulario de nueva barbería
+  // Campos del formulario de nueva barbería (o de la que se está editando)
+  protected readonly editando = signal<Barberia | null>(null);
   protected readonly nombre = signal('');
   protected readonly direccion = signal('');
   protected readonly telefono = signal('');
@@ -71,25 +72,39 @@ export class ListaBarberia {
     });
   }
 
-  crear(): void {
+  // POST si es nueva, PUT si se está editando
+  guardar(): void {
     if (this.formularioIncompleto()) {
       return;
     }
-    const nueva: Barberia = {
+    const editando = this.editando();
+    const datos: Barberia = {
       nombre: this.nombre().trim(),
       direccion: this.direccion().trim(),
       telefono: this.telefono().trim(),
       horario: this.horario().trim(),
-      activo: true,
+      activo: editando?.activo ?? true,
     };
-    this.barberiaService.crear(nueva).subscribe({
-      next: (creada) => {
-        this.aviso.set(`Barbería "${creada.nombre}" creada`);
+    const peticion = editando
+      ? this.barberiaService.actualizar(editando.id!, datos)
+      : this.barberiaService.crear(datos);
+    peticion.subscribe({
+      next: (guardada) => {
+        this.aviso.set(`Barbería "${guardada.nombre}" ${editando ? 'actualizada' : 'creada'}`);
         this.limpiarFormulario();
         this.cargar();
       },
       error: (err: HttpErrorResponse) => this.aviso.set(mensajeError(err)),
     });
+  }
+
+  editar(barberia: Barberia): void {
+    this.aviso.set('');
+    this.editando.set(barberia);
+    this.nombre.set(barberia.nombre);
+    this.direccion.set(barberia.direccion);
+    this.telefono.set(barberia.telefono);
+    this.horario.set(barberia.horario);
   }
 
   // PUT: activa o desactiva la barbería
@@ -117,7 +132,8 @@ export class ListaBarberia {
     });
   }
 
-  private limpiarFormulario(): void {
+  limpiarFormulario(): void {
+    this.editando.set(null);
     this.nombre.set('');
     this.direccion.set('');
     this.telefono.set('');

@@ -1,0 +1,21 @@
+<h1>{{ id() ? 'Editar pago #' + id() : 'Registrar pago' }}</h1>
+
+<div role="alert">
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+</div>
+
+@if (reservas(); as reservas) {
+  @if (!id() || registro()) {
+    <app-pago-form
+      [reservas]="reservas"
+      [registro]="registro()"
+      [reservaSeleccionada]="reservaSeleccionada()"
+      (guardado)="guardar($event)"
+      (cancelado)="volver()"
+    />
+  }
+} @else if (!error()) {
+  <p class="cargando">Cargando...</p>
+}

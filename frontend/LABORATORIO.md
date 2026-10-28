@@ -41,6 +41,11 @@ Apoyo: `app.ts` / `app.html` (raíz con nav y `<router-outlet>`), `app.routes.ts
    un signal privado, `agregarUsuario(usuario)` añade uno y `obtenerUsuarios()` devuelve la lista
    en modo de solo lectura. Todavía no hace llamadas HTTP.
 
+   > **Actualización (Entrega 2):** `UsuarioService` ya no usa el arreglo temporal; ahora llama a
+   > `/api/admin/usuarios` con `HttpClient`. `UsuariosPage` sigue siendo el padre de `UsuarioForm`
+   > (el hijo emite con `usuarioGuardado.emit(usuario)` y el padre hace el POST o PUT), y el login
+   > envía las credenciales a `/api/auth/login`.
+
 6. **¿Qué hace `inject(UsuarioService)`?**
    Le pide al inyector de Angular la instancia del servicio. Como es `providedIn: 'root'`, es una
    sola instancia compartida por toda la aplicación. `UsuariosPage` la obtiene con

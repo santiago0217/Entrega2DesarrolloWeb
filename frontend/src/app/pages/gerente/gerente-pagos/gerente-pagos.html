@@ -1,0 +1,52 @@
+<h1>Pagos recibidos</h1>
+<p class="subtitulo">{{ barberia }}</p>
+
+@if (error()) {
+  <p class="error" role="alert">{{ error() }}</p>
+} @else if (pagos(); as pagos) {
+  <p class="alerta exito">
+    Total recaudado (pagos completados):
+    <strong>{{ totalRecaudado() | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</strong>
+  </p>
+  <div class="tabla-contenedor">
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Cliente</th>
+          <th scope="col">Servicio</th>
+          <th scope="col">Fecha</th>
+          <th scope="col">Monto</th>
+          <th scope="col">Método</th>
+          <th scope="col">Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (p of pagos; track p.id) {
+          <tr>
+            <td>{{ p.id }}</td>
+            <td>{{ p.reserva.usuario.nombre }}</td>
+            <td>{{ p.reserva.servicio.nombre }}</td>
+            <td>{{ p.reserva.fecha }}</td>
+            <td>{{ p.monto | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</td>
+            <td>{{ p.metodoPago }}</td>
+            <td>
+              <span
+                class="estado"
+                [class.activo]="p.estado === 'COMPLETADO'"
+                [class.pendiente]="p.estado !== 'COMPLETADO'"
+                >{{ p.estado }}</span
+              >
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7">Todavía no hay pagos.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+} @else {
+  <p class="cargando">Cargando...</p>
+}

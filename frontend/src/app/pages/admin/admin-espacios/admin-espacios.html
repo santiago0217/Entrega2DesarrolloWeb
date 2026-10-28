@@ -1,0 +1,76 @@
+<div class="encabezado">
+  <h1>Gestión de espacios</h1>
+  <button type="button" (click)="nuevo()">Nuevo espacio</button>
+</div>
+
+<form class="filtros" (ngSubmit)="cargar()">
+  <div class="campo">
+    <label for="filtro-capacidad">Capacidad mínima</label>
+    <input id="filtro-capacidad" type="number" min="1" name="capacidadMinima" [(ngModel)]="capacidadMinima" />
+  </div>
+  <button type="submit">Filtrar</button>
+  <button type="button" class="secundario" (click)="verTodos()">Ver todos</button>
+</form>
+
+<div role="status">
+  @if (aviso()) {
+    <p class="aviso">{{ aviso() }}</p>
+  }
+</div>
+
+@if (formularioAbierto()) {
+  <section class="formulario-seccion">
+    <app-espacio-form
+      [registro]="seleccionado()"
+      [barberias]="barberiasActivas()"
+      (guardado)="guardar($event)"
+      (cancelado)="cerrarFormulario()"
+    />
+  </section>
+}
+
+@if (cargando()) {
+  <p class="cargando">Cargando...</p>
+} @else if (error()) {
+  <p class="error" role="alert">{{ error() }}</p>
+} @else {
+  <div class="tabla-contenedor">
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Barbería</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Capacidad</th>
+          <th scope="col">Estado</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (e of espacios(); track e.id) {
+          <tr>
+            <td>{{ e.id }}</td>
+            <td>{{ e.barberia?.nombre }}</td>
+            <td>{{ e.nombre }}</td>
+            <td>{{ e.capacidad }}</td>
+            <td>
+              <span class="estado" [class.activo]="e.activo" [class.inactivo]="!e.activo">
+                {{ e.activo ? 'Activo' : 'Inactivo' }}
+              </span>
+            </td>
+            <td class="acciones">
+              <button type="button" class="secundario" (click)="editar(e)">Editar</button>
+              <button type="button" [class.peligro]="e.activo" (click)="cambiarEstado(e)">
+                {{ e.activo ? 'Desactivar' : 'Activar' }}
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6">No hay espacios registrados.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

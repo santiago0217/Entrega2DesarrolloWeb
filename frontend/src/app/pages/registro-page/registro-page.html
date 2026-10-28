@@ -1,0 +1,15 @@
+<h1>Crear cuenta de cliente</h1>
+
+<app-usuario-form
+  [titulo]="'Tus datos'"
+  [roles]="roles"
+  (usuarioGuardado)="registrar($event)"
+/>
+
+<div role="alert">
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+</div>
+
+<p><a routerLink="/login">Volver al login</a></p>

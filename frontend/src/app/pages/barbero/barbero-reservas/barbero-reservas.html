@@ -1,0 +1,39 @@
+<h1>Reservas asignadas</h1>
+
+@if (error()) {
+  <p class="error" role="alert">{{ error() }}</p>
+} @else if (reservas(); as reservas) {
+  <div class="tabla-contenedor">
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th scope="col">Cliente</th>
+          <th scope="col">Teléfono</th>
+          <th scope="col">Servicio</th>
+          <th scope="col">Espacio</th>
+          <th scope="col">Fecha</th>
+          <th scope="col">Hora</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (r of reservas; track r.id) {
+          <tr>
+            <td>{{ r.usuario.nombre }}</td>
+            <td>{{ r.usuario.telefono }}</td>
+            <td>{{ r.servicio.nombre }}</td>
+            <td>{{ r.espacio.nombre }}</td>
+            <td>{{ r.fecha }}</td>
+            <td>{{ r.hora.slice(0, 5) }}</td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6">No tienes reservas asignadas.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <p><a class="boton" routerLink="/barbero/agenda">Ver mi agenda</a></p>
+} @else {
+  <p class="cargando">Cargando...</p>
+}

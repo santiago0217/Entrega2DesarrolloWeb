@@ -1,0 +1,15 @@
+<h1>Pagar reserva</h1>
+
+<div role="alert">
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+</div>
+
+@if (yaPagada()) {
+  <p class="aviso">Esta reserva ya tiene un pago registrado.</p>
+} @else if (reserva(); as reserva) {
+  <app-pago-form [reservaFija]="reserva" (guardado)="pagar($event)" (cancelado)="volver()" />
+} @else if (!error()) {
+  <p class="cargando">Cargando...</p>
+}

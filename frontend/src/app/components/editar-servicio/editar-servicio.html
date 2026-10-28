@@ -1,5 +1,11 @@
 <form class="formulario" novalidate (ngSubmit)="guardar()">
-  <h2>Editar servicio #{{ registro().id }}</h2>
+  <h2>
+    @if (registro().id) {
+      Editar servicio #{{ registro().id }}
+    } @else {
+      Nuevo servicio
+    }
+  </h2>
 
   <div class="campo">
     <label for="editar-nombre">Nombre</label>

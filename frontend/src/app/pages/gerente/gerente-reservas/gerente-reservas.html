@@ -1,0 +1,55 @@
+<h1>Reservas</h1>
+<p class="subtitulo">{{ barberia }}</p>
+
+@if (error()) {
+  <p class="error" role="alert">{{ error() }}</p>
+} @else if (reservas(); as reservas) {
+  <div class="tabla-contenedor">
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Cliente</th>
+          <th scope="col">Barbero</th>
+          <th scope="col">Servicio</th>
+          <th scope="col">Espacio</th>
+          <th scope="col">Fecha</th>
+          <th scope="col">Hora</th>
+          <th scope="col">Pago</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of reservas; track item.reserva.id) {
+          <tr>
+            <td>{{ item.reserva.id }}</td>
+            <td>{{ item.reserva.usuario.nombre }}</td>
+            <td>{{ item.reserva.barbero.nombre }}</td>
+            <td>{{ item.reserva.servicio.nombre }}</td>
+            <td>{{ item.reserva.espacio.nombre }}</td>
+            <td>{{ item.reserva.fecha }}</td>
+            <td>{{ item.reserva.hora.slice(0, 5) }}</td>
+            <td>
+              @if (item.pago; as pago) {
+                <span
+                  class="estado"
+                  [class.activo]="pago.estado === 'COMPLETADO'"
+                  [class.pendiente]="pago.estado !== 'COMPLETADO'"
+                  >{{ pago.estado }}</span
+                >
+              } @else {
+                <span class="estado neutro">SIN PAGO</span>
+              }
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="8">Tu barbería todavía no tiene reservas.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <p><a class="boton" routerLink="/gerente/agenda">Ver agenda por día</a></p>
+} @else {
+  <p class="cargando">Cargando...</p>
+}

@@ -34,7 +34,8 @@ public class AutenticacionInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    private boolean tieneAcceso(Rol rol, String ruta) {
+    // También lo usa ApiAutenticacionInterceptor, así las dos aplicaciones aplican las mismas reglas
+    static boolean tieneAcceso(Rol rol, String ruta) {
         if (ruta.startsWith("/admin")) {
             return rol == Rol.ADMINISTRADOR;
         }

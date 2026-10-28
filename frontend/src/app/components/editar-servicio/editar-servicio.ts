@@ -10,7 +10,8 @@ import { FormsModule } from '@angular/forms';
 
 import { Servicio } from '../../models/servicio.model';
 
-// Hijo de lista-servicio: recibe el servicio con input() y lo devuelve editado con output().
+// Hijo de lista-servicio y gerente-servicios: recibe el servicio con input() y lo devuelve editado
+// con output(). Si el servicio no tiene id, el formulario sirve para crear uno nuevo.
 @Component({
   selector: 'app-editar-servicio',
   imports: [FormsModule],

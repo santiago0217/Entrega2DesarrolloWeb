@@ -1,0 +1,63 @@
+<h1>Mis reservas</h1>
+
+<div role="status">
+  @if (aviso()) {
+    <p class="aviso">{{ aviso() }}</p>
+  }
+</div>
+
+@if (error()) {
+  <p class="error" role="alert">{{ error() }}</p>
+} @else if (reservas(); as reservas) {
+  <div class="tabla-contenedor">
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th scope="col">Barbería</th>
+          <th scope="col">Servicio</th>
+          <th scope="col">Barbero</th>
+          <th scope="col">Fecha</th>
+          <th scope="col">Hora</th>
+          <th scope="col">Pago</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of reservas; track item.reserva.id) {
+          <tr>
+            <td>{{ item.reserva.servicio.barberia.nombre }}</td>
+            <td>{{ item.reserva.servicio.nombre }}</td>
+            <td>{{ item.reserva.barbero.nombre }}</td>
+            <td>{{ item.reserva.fecha }}</td>
+            <td>{{ item.reserva.hora.slice(0, 5) }}</td>
+            <td>
+              @if (item.pago; as pago) {
+                <span
+                  class="estado"
+                  [class.activo]="pago.estado === 'COMPLETADO'"
+                  [class.pendiente]="pago.estado !== 'COMPLETADO'"
+                  >{{ pago.estado }}</span
+                >
+              } @else {
+                <span class="estado neutro">SIN PAGO</span>
+              }
+            </td>
+            <td class="acciones">
+              @if (!item.pago) {
+                <a class="boton" [routerLink]="['/cliente/pagar', item.reserva.id]">Pagar</a>
+              }
+              <button type="button" class="peligro" (click)="cancelar(item)">Cancelar</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7">Todavía no tienes reservas. Elige una barbería para comenzar.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <p><a class="boton" routerLink="/cliente">Ver barberías</a></p>
+} @else {
+  <p class="cargando">Cargando...</p>
+}

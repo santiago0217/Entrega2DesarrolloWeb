@@ -1,3 +1,18 @@
 <h1>Sistema de Login</h1>
 
+@if (registrado) {
+  <p class="alerta exito" role="status">Cuenta creada. Ya puedes iniciar sesión.</p>
+}
+
 <app-login-form [titulo]="'Ingreso a BarberBook'" (loginEnviado)="procesarLogin($event)" />
+
+<div role="alert">
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+</div>
+@if (cargando()) {
+  <p class="cargando">Ingresando...</p>
+}
+
+<p>¿No tienes cuenta? <a routerLink="/registro">Crea una cuenta de cliente</a></p>

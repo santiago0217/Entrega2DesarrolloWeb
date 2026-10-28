@@ -1,0 +1,40 @@
+<h1>Panel de administración</h1>
+
+@if (error()) {
+  <p class="error" role="alert">{{ error() }}</p>
+} @else if (resumen(); as r) {
+  <div class="tarjetas">
+    <div class="tarjeta">
+      <p class="valor">{{ r.totalBarberias }}</p>
+      <p class="etiqueta">Barberías</p>
+    </div>
+    <div class="tarjeta">
+      <p class="valor">{{ r.totalUsuarios }}</p>
+      <p class="etiqueta">Usuarios</p>
+    </div>
+    <div class="tarjeta">
+      <p class="valor">{{ r.totalBarberos }}</p>
+      <p class="etiqueta">Barberos</p>
+    </div>
+    <div class="tarjeta">
+      <p class="valor">{{ r.totalServicios }}</p>
+      <p class="etiqueta">Servicios</p>
+    </div>
+    <div class="tarjeta">
+      <p class="valor">{{ r.totalReservas }}</p>
+      <p class="etiqueta">Reservas</p>
+    </div>
+  </div>
+} @else {
+  <p class="cargando">Cargando...</p>
+}
+
+<nav class="enlaces" aria-label="Secciones de administración">
+  <a class="boton secundario" routerLink="/admin/barberias">Gestionar barberías</a>
+  <a class="boton secundario" routerLink="/admin/usuarios">Gestionar usuarios y barberos</a>
+  <a class="boton secundario" routerLink="/admin/servicios">Gestionar servicios</a>
+  <a class="boton secundario" routerLink="/admin/espacios">Gestionar espacios</a>
+  <a class="boton secundario" routerLink="/admin/reservas">Gestionar reservas</a>
+  <a class="boton secundario" routerLink="/admin/pagos">Gestionar pagos</a>
+  <a class="boton secundario" routerLink="/admin/reportes">Reporte de ingresos</a>
+</nav>

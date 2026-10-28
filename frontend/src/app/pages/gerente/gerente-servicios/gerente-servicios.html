@@ -1,0 +1,61 @@
+<div class="encabezado">
+  <h1>Mis servicios y precios</h1>
+  <button type="button" (click)="nuevo()">Nuevo servicio</button>
+</div>
+<p class="subtitulo">{{ barberia }}</p>
+
+<div role="status">
+  @if (aviso()) {
+    <p class="aviso">{{ aviso() }}</p>
+  }
+</div>
+
+@if (seleccionado(); as seleccionado) {
+  <section class="formulario-seccion">
+    <app-editar-servicio [registro]="seleccionado" (guardado)="guardar($event)" (cancelado)="cerrarFormulario()" />
+  </section>
+}
+
+@if (cargando()) {
+  <p class="cargando">Cargando...</p>
+} @else if (error()) {
+  <p class="error" role="alert">{{ error() }}</p>
+} @else {
+  <div class="tabla-contenedor">
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">Descripción</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Estado</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (s of servicios(); track s.id) {
+          <tr>
+            <td>{{ s.nombre }}</td>
+            <td>{{ s.descripcion }}</td>
+            <td>{{ s.precio | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</td>
+            <td>
+              <span class="estado" [class.activo]="s.activo" [class.inactivo]="!s.activo">
+                {{ s.activo ? 'Activo' : 'Inactivo' }}
+              </span>
+            </td>
+            <td class="acciones">
+              <button type="button" class="secundario" (click)="editar(s)">Editar</button>
+              <button type="button" [class.peligro]="s.activo" (click)="cambiarEstado(s)">
+                {{ s.activo ? 'Desactivar' : 'Activar' }}
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="5">Tu barbería todavía no tiene servicios.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

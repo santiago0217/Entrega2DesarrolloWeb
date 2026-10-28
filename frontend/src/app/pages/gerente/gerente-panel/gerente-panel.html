@@ -1,0 +1,48 @@
+@if (error()) {
+  <p class="error" role="alert">{{ error() }}</p>
+} @else if (resumen(); as r) {
+  <h1>{{ r.barberia.nombre }}</h1>
+  <p class="subtitulo">{{ r.barberia.direccion }} · {{ r.barberia.telefono }} · {{ r.barberia.horario }}</p>
+
+  @if (!r.barberia.activo) {
+    <p class="alerta peligro" role="alert">
+      Tu barbería está <strong>desactivada</strong> por el administrador del sistema. Puedes consultar la
+      información, pero no hacer cambios ni recibir reservas nuevas.
+    </p>
+  } @else if (r.totalEspacios === 0) {
+    <p class="alerta advertencia" role="alert">
+      Tu barbería no tiene espacios de trabajo, así que los clientes no pueden reservar todavía.
+      <a routerLink="/gerente/espacios">Crea el primero</a>.
+    </p>
+  }
+
+  <div class="tarjetas">
+    <div class="tarjeta">
+      <p class="valor">{{ r.totalBarberos }}</p>
+      <p class="etiqueta">Barberos</p>
+    </div>
+    <div class="tarjeta">
+      <p class="valor">{{ r.totalServicios }}</p>
+      <p class="etiqueta">Servicios</p>
+    </div>
+    <div class="tarjeta">
+      <p class="valor">{{ r.totalReservas }}</p>
+      <p class="etiqueta">Reservas</p>
+    </div>
+    <div class="tarjeta">
+      <p class="valor">{{ r.totalRecaudado | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</p>
+      <p class="etiqueta">Recaudado</p>
+    </div>
+  </div>
+
+  <nav class="enlaces" aria-label="Secciones de mi barbería">
+    <a class="boton secundario" routerLink="/gerente/reservas">Reservas de mi barbería</a>
+    <a class="boton secundario" routerLink="/gerente/agenda">Agenda por día</a>
+    <a class="boton secundario" routerLink="/gerente/barberos">Mis barberos</a>
+    <a class="boton secundario" routerLink="/gerente/servicios">Mis servicios y precios</a>
+    <a class="boton secundario" routerLink="/gerente/espacios">Mis espacios de trabajo</a>
+    <a class="boton secundario" routerLink="/gerente/pagos">Pagos recibidos</a>
+  </nav>
+} @else {
+  <p class="cargando">Cargando...</p>
+}

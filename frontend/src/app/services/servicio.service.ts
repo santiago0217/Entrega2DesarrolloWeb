@@ -4,13 +4,14 @@ import { Observable } from 'rxjs';
 
 import { Pagina } from '../models/pagina.model';
 import { Servicio } from '../models/servicio.model';
+import { API_URL } from './api';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ServicioService {
   private http = inject(HttpClient);
-  private readonly url = 'http://localhost:8081/api/servicios';
+  private readonly url = `${API_URL}/servicios`;
 
   // GET paginado; nombre, min y max son filtros opcionales
   listar(

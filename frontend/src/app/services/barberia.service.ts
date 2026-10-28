@@ -3,13 +3,14 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Barberia } from '../models/barberia.model';
+import { API_URL } from './api';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BarberiaService {
   private http = inject(HttpClient);
-  private readonly url = 'http://localhost:8081/api/barberias';
+  private readonly url = `${API_URL}/barberias`;
 
   listar(): Observable<Barberia[]> {
     return this.http.get<Barberia[]>(this.url);

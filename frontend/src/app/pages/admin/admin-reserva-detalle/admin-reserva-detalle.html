@@ -1,0 +1,46 @@
+<h1>Detalle de reserva</h1>
+
+@if (error()) {
+  <p class="error" role="alert">{{ error() }}</p>
+} @else if (detalle(); as d) {
+  <div class="tarjetas">
+    <section class="tarjeta">
+      <h2>Reserva #{{ d.reserva.id }}</h2>
+      <p><strong>Cliente:</strong> {{ d.reserva.usuario.nombre }} ({{ d.reserva.usuario.correo }})</p>
+      <p><strong>Barbero:</strong> {{ d.reserva.barbero.nombre }}</p>
+      <p><strong>Servicio:</strong> {{ d.reserva.servicio.nombre }}</p>
+      <p><strong>Espacio:</strong> {{ d.reserva.espacio.nombre }}</p>
+      <p><strong>Fecha:</strong> {{ d.reserva.fecha }}</p>
+      <p><strong>Hora:</strong> {{ d.reserva.hora.slice(0, 5) }}</p>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Pago</h2>
+      @if (d.pago; as pago) {
+        <p>
+          <span
+            class="estado"
+            [class.activo]="pago.estado === 'COMPLETADO'"
+            [class.pendiente]="pago.estado !== 'COMPLETADO'"
+            >{{ pago.estado }}</span
+          >
+        </p>
+        <p><strong>Monto:</strong> {{ pago.monto | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</p>
+        <p><strong>Método:</strong> {{ pago.metodoPago }}</p>
+        <a class="boton secundario" [routerLink]="['/admin/pagos', pago.id, 'editar']">Editar pago</a>
+      } @else {
+        <p>Esta reserva todavía no tiene pago.</p>
+        <a class="boton" routerLink="/admin/pagos/nuevo" [queryParams]="{ reservaId: d.reserva.id }"
+          >Registrar pago</a
+        >
+      }
+    </section>
+  </div>
+
+  <div class="botones">
+    <a class="boton secundario" routerLink="/admin/reservas">Volver al listado</a>
+    <a class="boton" [routerLink]="['/admin/reservas', d.reserva.id, 'editar']">Editar</a>
+  </div>
+} @else {
+  <p class="cargando">Cargando...</p>
+}

@@ -45,3 +45,23 @@ nav a:hover {
 nav a.activo {
   background: #0b4f9c;
 }
+
+.cuenta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.rol {
+  padding: 0.125rem 0.5rem;
+  background: #343b47;
+  border-radius: 999px;
+}
+
+.salir {
+  padding: 0.25rem 0.75rem;
+  color: #ffffff;
+  background: transparent;
+  border: 1px solid #c9ced6;
+}

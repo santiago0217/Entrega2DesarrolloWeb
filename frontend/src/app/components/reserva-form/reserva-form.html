@@ -1,0 +1,98 @@
+<form class="formulario" novalidate (ngSubmit)="guardar()">
+  @if (opciones().servicio; as servicio) {
+    <p>
+      <strong>Barbería:</strong> {{ servicio.barberia.nombre }}<br />
+      <strong>Servicio:</strong> {{ servicio.nombre }}
+    </p>
+  }
+
+  @if (sinBarberos() || sinEspacios()) {
+    <p class="alerta advertencia" role="alert">
+      Esta barbería todavía no tiene
+      {{ sinBarberos() ? 'barberos disponibles' : '' }}
+      {{ sinBarberos() && sinEspacios() ? 'ni' : '' }}
+      {{ sinEspacios() ? 'espacios de trabajo' : '' }}, por lo que no se puede reservar por ahora.
+    </p>
+  }
+
+  @if (opciones().clientes; as clientes) {
+    <div class="campo">
+      <label for="reserva-cliente">Cliente</label>
+      <select id="reserva-cliente" name="cliente" [(ngModel)]="clienteId">
+        <option [ngValue]="null" disabled>-- Seleccionar cliente --</option>
+        @for (c of clientes; track c.id) {
+          <option [ngValue]="c.id">{{ c.nombre }}</option>
+        }
+      </select>
+      @if (intentoGuardar() && clienteFaltante()) {
+        <p class="error" role="alert">Debe seleccionar un cliente</p>
+      }
+    </div>
+  }
+
+  @if (opciones().servicios; as servicios) {
+    <div class="campo">
+      <label for="reserva-servicio">Servicio</label>
+      <select id="reserva-servicio" name="servicio" [(ngModel)]="servicioId">
+        <option [ngValue]="null" disabled>-- Seleccionar servicio --</option>
+        @for (s of servicios; track s.id) {
+          <option [ngValue]="s.id">{{ s.nombre }} ({{ s.barberia.nombre }})</option>
+        }
+      </select>
+      @if (intentoGuardar() && servicioId() === null) {
+        <p class="error" role="alert">Debe seleccionar un servicio</p>
+      }
+    </div>
+  }
+
+  <div class="campo">
+    <label for="reserva-barbero">Barbero</label>
+    <select id="reserva-barbero" name="barbero" [(ngModel)]="barberoId">
+      <option [ngValue]="null" disabled>-- Seleccionar barbero --</option>
+      @for (b of opciones().barberos; track b.id) {
+        <option [ngValue]="b.id">{{ b.nombre }}</option>
+      }
+    </select>
+    @if (intentoGuardar() && barberoId() === null) {
+      <p class="error" role="alert">Debe seleccionar un barbero</p>
+    }
+  </div>
+
+  <div class="campo">
+    <label for="reserva-espacio">Espacio</label>
+    <select id="reserva-espacio" name="espacio" [(ngModel)]="espacioId">
+      <option [ngValue]="null" disabled>-- Seleccionar espacio --</option>
+      @for (e of opciones().espacios; track e.id) {
+        <option [ngValue]="e.id">
+          {{ e.nombre }}{{ opciones().servicio ? '' : ' (' + e.barberia?.nombre + ')' }}
+        </option>
+      }
+    </select>
+    @if (intentoGuardar() && espacioId() === null) {
+      <p class="error" role="alert">Debe seleccionar un espacio</p>
+    }
+  </div>
+
+  <div class="campo">
+    <label for="reserva-fecha">Fecha</label>
+    <input id="reserva-fecha" type="date" name="fecha" [min]="hoy" [(ngModel)]="fecha" />
+    @if (intentoGuardar() && fechaInvalida()) {
+      <p class="error" role="alert">La fecha es obligatoria y no puede ser anterior a hoy</p>
+    }
+  </div>
+
+  <div class="campo">
+    <label for="reserva-hora">Hora</label>
+    <input id="reserva-hora" type="time" name="hora" [(ngModel)]="hora" />
+    @if (intentoGuardar() && hora() === '') {
+      <p class="error" role="alert">La hora es obligatoria</p>
+    }
+  </div>
+
+  <div class="botones">
+    <button type="submit" [disabled]="sinBarberos() || sinEspacios()">
+      {{ registro() ? 'Guardar cambios' : 'Confirmar reserva' }}
+    </button>
+    <button type="button" class="secundario" (click)="cancelar()">Cancelar</button>
+  </div>
+</form>

@@ -1,0 +1,47 @@
+<p><a routerLink="/cliente">&laquo; Volver a barberías</a></p>
+
+@if (error()) {
+  <p class="error" role="alert">{{ error() }}</p>
+} @else if (detalle(); as d) {
+  <h1>{{ d.barberia.nombre }}</h1>
+  <p class="subtitulo">{{ d.barberia.direccion }} · {{ d.barberia.telefono }} · {{ d.barberia.horario }}</p>
+
+  <h2>Servicios</h2>
+  <div class="tabla-contenedor">
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th scope="col">Servicio</th>
+          <th scope="col">Descripción</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (s of d.servicios; track s.id) {
+          <tr>
+            <td>{{ s.nombre }}</td>
+            <td>{{ s.descripcion }}</td>
+            <td>{{ s.precio | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</td>
+            <td><a class="boton" [routerLink]="['/cliente/reservar', s.id]">Reservar</a></td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="4">Esta barbería todavía no tiene servicios.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Barberos</h2>
+  <ul>
+    @for (b of d.barberos; track b.id) {
+      <li>{{ b.nombre }}</li>
+    } @empty {
+      <li>Todavía no hay barberos disponibles.</li>
+    }
+  </ul>
+} @else {
+  <p class="cargando">Cargando...</p>
+}

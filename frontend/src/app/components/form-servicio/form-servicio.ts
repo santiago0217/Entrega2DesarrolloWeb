@@ -68,7 +68,7 @@ export class FormServicio {
     this.servicioService.crear(servicio).subscribe({
       next: () => {
         this.cargando.set(false);
-        this.router.navigate(['/servicios']);
+        this.router.navigate(['/admin/servicios']);
       },
       error: (err: HttpErrorResponse) => {
         this.error.set(mensajeError(err));

@@ -22,9 +22,7 @@ import com.example.demo.entities.Pago;
 import com.example.demo.entities.Rol;
 import com.example.demo.entities.Servicio;
 import com.example.demo.entities.Usuario;
-import com.example.demo.exception.BarberiaInactivaException;
-import com.example.demo.exception.RecursoNoEncontradoException;
-import com.example.demo.service.BarberiaService;
+import com.example.demo.service.AccesoGerente;
 import com.example.demo.service.EspacioService;
 import com.example.demo.service.PagoService;
 import com.example.demo.service.ReservaService;
@@ -43,17 +41,17 @@ public class GerenteController {
     private final ServicioService servicioService;
     private final UsuarioService usuarioService;
     private final EspacioService espacioService;
-    private final BarberiaService barberiaService;
+    private final AccesoGerente accesoGerente;
 
     public GerenteController(ReservaService reservaService, PagoService pagoService,
                              ServicioService servicioService, UsuarioService usuarioService,
-                             EspacioService espacioService, BarberiaService barberiaService) {
+                             EspacioService espacioService, AccesoGerente accesoGerente) {
         this.reservaService = reservaService;
         this.pagoService = pagoService;
         this.servicioService = servicioService;
         this.usuarioService = usuarioService;
         this.espacioService = espacioService;
-        this.barberiaService = barberiaService;
+        this.accesoGerente = accesoGerente;
     }
 
     @GetMapping
@@ -64,7 +62,7 @@ public class GerenteController {
         model.addAttribute("totalServicios", servicioService.findTodosPorBarberiaId(barberia.getId()).size());
         model.addAttribute("totalEspacios", espacioService.obtenerTodosPorBarberia(barberia.getId()).size());
         model.addAttribute("totalReservas", reservaService.findByBarberiaId(barberia.getId()).size());
-        model.addAttribute("totalRecaudado", totalRecaudado(barberia.getId()));
+        model.addAttribute("totalRecaudado", pagoService.totalRecaudado(barberia.getId()));
         return "gerente_panel";
     }
 
@@ -93,7 +91,7 @@ public class GerenteController {
         Barberia barberia = barberiaEnSesion(sesion);
         model.addAttribute("barberia", barberia);
         model.addAttribute("pagos", pagoService.findByBarberiaId(barberia.getId()));
-        model.addAttribute("totalRecaudado", totalRecaudado(barberia.getId()));
+        model.addAttribute("totalRecaudado", pagoService.totalRecaudado(barberia.getId()));
         return "gerente_pagos";
     }
 
@@ -261,58 +259,28 @@ public class GerenteController {
         return "redirect:/gerente/barberos";
     }
 
+    private Usuario gerente(HttpSession sesion) {
+        return (Usuario) sesion.getAttribute("usuario");
+    }
+
     private Barberia barberiaEnSesion(HttpSession sesion) {
-        Usuario gerente = (Usuario) sesion.getAttribute("usuario");
-        if (gerente.getBarberia() == null) {
-            throw new RecursoNoEncontradoException("Tu cuenta no tiene una barbería asignada.");
-        }
-        Barberia barberia = barberiaService.obtenerPorId(gerente.getBarberia().getId());
-        if (barberia == null) {
-            throw new RecursoNoEncontradoException("Tu barbería ya no existe en el sistema.");
-        }
-        return barberia;
+        return accesoGerente.barberia(gerente(sesion));
     }
 
     private Barberia barberiaActivaEnSesion(HttpSession sesion) {
-        Barberia barberia = barberiaEnSesion(sesion);
-        if (!barberia.getActivo()) {
-            throw new BarberiaInactivaException(
-                    "Tu barbería está desactivada, por lo que no puedes hacer cambios. "
-                            + "Contacta al administrador del sistema.");
-        }
-        return barberia;
+        return accesoGerente.barberiaActiva(gerente(sesion));
     }
 
     private Servicio servicioDeMiBarberia(Integer id, HttpSession sesion) {
-        Servicio servicio = servicioService.findById(id);
-        if (servicio == null || !servicio.getBarberia().getId().equals(barberiaEnSesion(sesion).getId())) {
-            throw new RecursoNoEncontradoException("No existe un servicio con id " + id + " en tu barbería.");
-        }
-        return servicio;
+        return accesoGerente.servicio(id, gerente(sesion));
     }
 
     private Espacio espacioDeMiBarberia(Long id, HttpSession sesion) {
-        Espacio espacio = espacioService.obtenerPorId(id);
-        if (espacio == null || !espacio.getBarberia().getId().equals(barberiaEnSesion(sesion).getId())) {
-            throw new RecursoNoEncontradoException("No existe un espacio con id " + id + " en tu barbería.");
-        }
-        return espacio;
+        return accesoGerente.espacio(id, gerente(sesion));
     }
 
     private Usuario barberoDeMiBarberia(Long id, HttpSession sesion) {
-        Usuario barbero = usuarioService.buscarPorId(id);
-        if (barbero == null || barbero.getRol() != Rol.BARBERO || barbero.getBarberia() == null
-                || !barbero.getBarberia().getId().equals(barberiaEnSesion(sesion).getId())) {
-            throw new RecursoNoEncontradoException("No existe un barbero con id " + id + " en tu barbería.");
-        }
-        return barbero;
-    }
-
-    private Double totalRecaudado(Long barberiaId) {
-        return pagoService.findByBarberiaId(barberiaId).stream()
-                .filter(pago -> "COMPLETADO".equals(pago.getEstado()))
-                .mapToDouble(Pago::getMonto)
-                .sum();
+        return accesoGerente.barbero(id, gerente(sesion));
     }
 
     private Map<Long, Pago> pagosPorReserva(Long barberiaId) {

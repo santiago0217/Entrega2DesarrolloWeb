@@ -1,0 +1,43 @@
+<h1>Mi agenda</h1>
+
+<form class="filtros" (ngSubmit)="consultar()">
+  <div class="campo">
+    <label for="agenda-fecha">Fecha</label>
+    <input id="agenda-fecha" type="date" name="fecha" [(ngModel)]="fecha" />
+  </div>
+  <button type="submit">Consultar</button>
+</form>
+
+@if (cargando()) {
+  <p class="cargando">Cargando...</p>
+} @else if (error()) {
+  <p class="error" role="alert">{{ error() }}</p>
+} @else {
+  <p class="aviso">
+    Citas del <strong>{{ fechaConsultada() }}</strong>: {{ reservas().length }}
+  </p>
+  <table class="tabla">
+    <thead>
+      <tr>
+        <th scope="col">Hora</th>
+        <th scope="col">Cliente</th>
+        <th scope="col">Servicio</th>
+        <th scope="col">Espacio</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (r of reservas(); track r.id) {
+        <tr>
+          <td>{{ r.hora.slice(0, 5) }}</td>
+          <td>{{ r.usuario.nombre }}</td>
+          <td>{{ r.servicio.nombre }}</td>
+          <td>{{ r.espacio.nombre }}</td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="4">No tienes citas este día.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}

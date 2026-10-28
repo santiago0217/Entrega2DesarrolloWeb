@@ -1,0 +1,61 @@
+<div class="encabezado">
+  <h1>Gestión de pagos</h1>
+  <a class="boton" routerLink="/admin/pagos/nuevo">Registrar pago</a>
+</div>
+
+<div role="status">
+  @if (aviso()) {
+    <p class="aviso">{{ aviso() }}</p>
+  }
+</div>
+
+@if (cargando()) {
+  <p class="cargando">Cargando...</p>
+} @else if (error()) {
+  <p class="error" role="alert">{{ error() }}</p>
+} @else {
+  <div class="tabla-contenedor">
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Reserva</th>
+          <th scope="col">Cliente</th>
+          <th scope="col">Servicio</th>
+          <th scope="col">Monto</th>
+          <th scope="col">Método</th>
+          <th scope="col">Estado</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (p of pagos(); track p.id) {
+          <tr>
+            <td>{{ p.id }}</td>
+            <td>#{{ p.reserva.id }} ({{ p.reserva.fecha }})</td>
+            <td>{{ p.reserva.usuario.nombre }}</td>
+            <td>{{ p.reserva.servicio.nombre }}</td>
+            <td>{{ p.monto | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</td>
+            <td>{{ p.metodoPago }}</td>
+            <td>
+              <span
+                class="estado"
+                [class.activo]="p.estado === 'COMPLETADO'"
+                [class.pendiente]="p.estado !== 'COMPLETADO'"
+                >{{ p.estado }}</span
+              >
+            </td>
+            <td class="acciones">
+              <a class="boton secundario" [routerLink]="['/admin/pagos', p.id, 'editar']">Editar</a>
+              <button type="button" class="peligro" (click)="eliminar(p)">Eliminar</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="8">No hay pagos registrados.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

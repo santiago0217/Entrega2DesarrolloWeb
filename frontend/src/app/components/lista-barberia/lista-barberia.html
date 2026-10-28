@@ -44,6 +44,7 @@
             }
           </td>
           <td class="acciones">
+            <button type="button" class="secundario" (click)="editar(b)">Editar</button>
             <button type="button" class="secundario" (click)="cambiarEstado(b)">
               {{ b.activo ? 'Desactivar' : 'Activar' }}
             </button>
@@ -78,9 +79,9 @@
     }
   </form>
 
-  <!-- POST -->
-  <form class="formulario" (ngSubmit)="crear()">
-    <h2>Nueva barbería</h2>
+  <!-- POST o PUT -->
+  <form class="formulario" (ngSubmit)="guardar()">
+    <h2>{{ editando() ? 'Editar barbería #' + editando()?.id : 'Nueva barbería' }}</h2>
     <div class="campo">
       <label for="barberia-nombre">Nombre</label>
       <input id="barberia-nombre" type="text" name="nombre" [(ngModel)]="nombre" />
@@ -97,6 +98,13 @@
       <label for="barberia-horario">Horario</label>
       <input id="barberia-horario" type="text" name="horario" [(ngModel)]="horario" />
     </div>
-    <button type="submit" [disabled]="formularioIncompleto()">Crear barbería</button>
+    <div class="botones">
+      <button type="submit" [disabled]="formularioIncompleto()">
+        {{ editando() ? 'Guardar cambios' : 'Crear barbería' }}
+      </button>
+      @if (editando()) {
+        <button type="button" class="secundario" (click)="limpiarFormulario()">Cancelar</button>
+      }
+    </div>
   </form>
 </section>
