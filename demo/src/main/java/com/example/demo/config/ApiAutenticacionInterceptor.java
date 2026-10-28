@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import com.example.demo.entities.Rol;
 import com.example.demo.entities.Usuario;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-// Igual que AutenticacionInterceptor, pero para la API: responde 401/403 en JSON en lugar de redirigir.
+// Protege la API por rol: responde 401 sin sesión y 403 si el rol no corresponde, en JSON.
 @Component
 public class ApiAutenticacionInterceptor implements HandlerInterceptor {
 
@@ -33,13 +34,28 @@ public class ApiAutenticacionInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        // /api/gerente/... se valida con la misma regla que /gerente/...
         String ruta = request.getRequestURI().substring("/api".length());
-        if (!AutenticacionInterceptor.tieneAcceso(usuario.getRol(), ruta)) {
+        if (!tieneAcceso(usuario.getRol(), ruta)) {
             responder(response, HttpStatus.FORBIDDEN, "No tienes permisos para acceder a esa sección.");
             return false;
         }
 
+        return true;
+    }
+
+    private static boolean tieneAcceso(Rol rol, String ruta) {
+        if (ruta.startsWith("/admin")) {
+            return rol == Rol.ADMINISTRADOR;
+        }
+        if (ruta.startsWith("/gerente")) {
+            return rol == Rol.GERENTE;
+        }
+        if (ruta.startsWith("/barbero")) {
+            return rol == Rol.BARBERO;
+        }
+        if (ruta.startsWith("/cliente")) {
+            return rol == Rol.CLIENTE;
+        }
         return true;
     }
 

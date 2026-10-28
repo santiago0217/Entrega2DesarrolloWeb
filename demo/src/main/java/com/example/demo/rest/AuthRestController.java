@@ -17,8 +17,8 @@ import com.example.demo.service.UsuarioService;
 
 import jakarta.servlet.http.HttpSession;
 
-// Login de Angular. Guarda el usuario en la misma HttpSession que usa AuthController (Thymeleaf),
-// así los interceptores aplican las mismas reglas por rol a las dos aplicaciones.
+// Login de Angular. Guarda el usuario en la HttpSession; ApiAutenticacionInterceptor lo lee
+// para aplicar las reglas por rol.
 @RestController
 @RequestMapping("/api/auth")
 public class AuthRestController {

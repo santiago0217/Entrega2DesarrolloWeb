@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 import { rolGuard } from './guards/rol.guard';
 
 // Cada rol tiene su sección, protegida con rolGuard (las mismas reglas que el backend).
-// Las rutas siguen las vistas Thymeleaf: /admin/..., /gerente/..., /barbero/..., /cliente/...
+// Las rutas siguen la API: /admin/..., /gerente/..., /barbero/..., /cliente/...
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
   {

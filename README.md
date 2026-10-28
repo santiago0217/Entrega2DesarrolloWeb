@@ -7,14 +7,13 @@ Santiago Martínez Cuellar
 
 Sistema de reservas para barberías con cuatro roles: administrador, gerente, barbero y cliente.
 
-| Carpeta     | Qué es                                                                          | Puerto |
-| ----------- | ------------------------------------------------------------------------------- | ------ |
-| `demo/`     | Backend Spring Boot: vistas Thymeleaf (Entrega 1) y API REST `/api` (Entrega 2) | 8081   |
-| `frontend/` | Frontend Angular que consume la API REST                                        | 4200   |
+| Carpeta     | Qué es                                              | Puerto |
+| ----------- | --------------------------------------------------- | ------ |
+| `demo/`     | Backend Spring Boot: API REST `/api` con PostgreSQL | 8081   |
+| `frontend/` | Frontend Angular que consume la API REST            | 4200   |
 
-Las dos interfaces usan **los mismos servicios y la misma base de datos**. El login de Angular guarda
-el usuario en la misma sesión (`HttpSession`) que el login de Thymeleaf, y los interceptores del backend
-aplican las mismas reglas por rol a `/admin/...` y a `/api/admin/...`.
+El login de Angular guarda el usuario en la sesión del backend (`HttpSession`), y
+`ApiAutenticacionInterceptor` aplica las reglas por rol a `/api/admin/...`, `/api/gerente/...`, etc.
 
 ## Cómo ejecutarlo
 
@@ -23,7 +22,6 @@ Terminal 1 (backend, usa PostgreSQL: base `barberbook`, usuario `postgres`, clav
 ```bash
 cd demo
 ./mvnw spring-boot:run
-# sin PostgreSQL: ./mvnw spring-boot:run -Dspring-boot.run.profiles=h2
 ```
 
 Terminal 2 (frontend):
@@ -47,14 +45,14 @@ La base se crea y se llena con `data.sql` cada vez que arranca el backend (`crea
 
 ## API REST
 
-| Ruta                                    | Acceso        | Equivale a                         |
-| --------------------------------------- | ------------- | ---------------------------------- |
-| `/api/auth/login`, `/registro`, `/sesion`, `/logout` | público | `AuthController`         |
-| `/api/servicios`, `/api/barberias`      | público       | CRUD de las entidades A y B        |
-| `/api/admin/...`                        | ADMINISTRADOR | `AdminController`, `UsuarioController`, `EspacioController`, `ReservaController`, `PagoController` |
-| `/api/gerente/...`                      | GERENTE       | `GerenteController`                |
-| `/api/barbero/...`                      | BARBERO       | `BarberoController`                |
-| `/api/cliente/...`                      | CLIENTE       | `ClienteController`                |
+| Ruta                                                 | Acceso        | Controlador                                     |
+| ---------------------------------------------------- | ------------- | ----------------------------------------------- |
+| `/api/auth/login`, `/registro`, `/sesion`, `/logout` | público       | `AuthRestController`                            |
+| `/api/servicios`, `/api/barberias`                   | público       | `ServicioRestController`, `BarberiaRestController` |
+| `/api/admin/...`                                     | ADMINISTRADOR | `AdminRestController`, `UsuarioRestController`, `EspacioRestController`, `ReservaRestController`, `PagoRestController` |
+| `/api/gerente/...`                                   | GERENTE       | `GerenteRestController`                         |
+| `/api/barbero/...`                                   | BARBERO       | `BarberoRestController`                         |
+| `/api/cliente/...`                                   | CLIENTE       | `ClienteRestController`                         |
 
 Sin sesión la API responde `401`; con otro rol, `403`. Los errores de validación y de negocio
 (horario ocupado, pago repetido, correo repetido, barbería desactivada) llegan en JSON y Angular
@@ -64,5 +62,5 @@ muestra el mensaje del backend.
 
 ```bash
 cd frontend && npm test -- --watch=false
-cd demo && ./mvnw test   # usa H2
+cd demo && ./mvnw test   # necesita PostgreSQL corriendo
 ```

@@ -10,7 +10,7 @@ import { BarberiaService } from '../../services/barberia.service';
 import { mensajeError } from '../../services/mensaje-error';
 import { UsuarioService } from '../../services/usuario.service';
 
-// Padre del formulario de usuario (equivalente de usuarios.html + vista_usuario.html).
+// Padre del formulario de usuario: lista los usuarios y permite crearlos o editarlos.
 // Envía al hijo el usuario a editar y recibe con (usuarioGuardado) el usuario a guardar.
 @Component({
   selector: 'app-usuarios-page',

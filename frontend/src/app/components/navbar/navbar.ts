@@ -9,7 +9,7 @@ interface Enlace {
   texto: string;
 }
 
-// Mismos enlaces por rol que fragments/nav.html de Thymeleaf
+// Enlaces del menú según el rol del usuario
 const ENLACES: Record<Rol, Enlace[]> = {
   ADMINISTRADOR: [
     { ruta: '/admin', texto: 'Panel' },
