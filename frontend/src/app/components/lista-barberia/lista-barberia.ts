@@ -18,15 +18,13 @@ export class ListaBarberia {
 
   protected readonly barberias = signal<Barberia[]>([]);
   protected readonly cargando = signal(false);
-  protected readonly error = signal(''); // error al cargar la lista
-  protected readonly aviso = signal(''); // resultado de crear, actualizar o eliminar
+  protected readonly error = signal('');
+  protected readonly aviso = signal('');
 
-  // Consulta de una barbería por id
   protected readonly idBuscado = signal<number | null>(null);
   protected readonly encontrada = signal<Barberia | null>(null);
   protected readonly errorConsulta = signal('');
 
-  // Campos del formulario de nueva barbería (o de la que se está editando)
   protected readonly editando = signal<Barberia | null>(null);
   protected readonly nombre = signal('');
   protected readonly direccion = signal('');
@@ -72,7 +70,6 @@ export class ListaBarberia {
     });
   }
 
-  // POST si es nueva, PUT si se está editando
   guardar(): void {
     if (this.formularioIncompleto()) {
       return;
@@ -107,7 +104,6 @@ export class ListaBarberia {
     this.horario.set(barberia.horario);
   }
 
-  // PUT: activa o desactiva la barbería
   cambiarEstado(barberia: Barberia): void {
     const cambiada: Barberia = { ...barberia, activo: !barberia.activo };
     this.barberiaService.actualizar(barberia.id!, cambiada).subscribe({

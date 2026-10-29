@@ -22,8 +22,6 @@ export class LoginPage {
   protected readonly cargando = signal(false);
   protected readonly registrado = inject(ActivatedRoute).snapshot.queryParamMap.has('registrado');
 
-  // El hijo emite las credenciales; el padre las envía al backend y va a la página de su rol.
-  // La contraseña no se imprime ni se guarda.
   procesarLogin(credenciales: Credenciales): void {
     this.cargando.set(true);
     this.error.set('');

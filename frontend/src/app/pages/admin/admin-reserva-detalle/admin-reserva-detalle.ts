@@ -7,7 +7,6 @@ import { ReservaConPago } from '../../../models/reserva.model';
 import { mensajeError } from '../../../services/mensaje-error';
 import { ReservaService } from '../../../services/reserva.service';
 
-// Equivalente de reserva_detalle.html. Ruta /admin/reservas/:id
 @Component({
   selector: 'app-admin-reserva-detalle',
   imports: [RouterLink, CurrencyPipe],

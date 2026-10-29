@@ -34,7 +34,6 @@ public class Usuario {
 
     @NotBlank(message = "La contraseña es obligatoria")
     @Size(min = 4, message = "La contraseña debe tener al menos 4 caracteres")
-    // Se recibe en el JSON pero nunca se envía al frontend
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false, length = 100)
     private String password;

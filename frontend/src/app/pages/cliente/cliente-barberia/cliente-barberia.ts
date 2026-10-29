@@ -7,7 +7,6 @@ import { DetalleBarberia } from '../../../models/resumen.model';
 import { ClienteService } from '../../../services/cliente.service';
 import { mensajeError } from '../../../services/mensaje-error';
 
-// Equivalente de cliente_barberia.html. Ruta /cliente/barberias/:id
 @Component({
   selector: 'app-cliente-barberia',
   imports: [RouterLink, CurrencyPipe],

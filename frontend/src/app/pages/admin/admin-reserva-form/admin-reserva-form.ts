@@ -7,7 +7,6 @@ import { OpcionesReserva, Reserva, ReservaDatos } from '../../../models/reserva.
 import { mensajeError } from '../../../services/mensaje-error';
 import { ReservaService } from '../../../services/reserva.service';
 
-// Equivalente de reserva_form.html. Ruta /admin/reservas/nueva o /admin/reservas/:id/editar
 @Component({
   selector: 'app-admin-reserva-form',
   imports: [ReservaForm],
@@ -18,7 +17,6 @@ export class AdminReservaForm implements OnInit {
   private reservaService = inject(ReservaService);
   private router = inject(Router);
 
-  // Parámetro :id de la ruta (withComponentInputBinding)
   id = input<string>();
 
   protected readonly opciones = signal<OpcionesReserva | null>(null);

@@ -10,8 +10,6 @@ import { BarberiaService } from '../../services/barberia.service';
 import { mensajeError } from '../../services/mensaje-error';
 import { UsuarioService } from '../../services/usuario.service';
 
-// Padre del formulario de usuario: lista los usuarios y permite crearlos o editarlos.
-// Envía al hijo el usuario a editar y recibe con (usuarioGuardado) el usuario a guardar.
 @Component({
   selector: 'app-usuarios-page',
   imports: [UsuarioForm, FormsModule],
@@ -32,11 +30,9 @@ export class UsuariosPage {
 
   protected readonly rolFiltro = signal<Rol | null>(null);
 
-  // Solo las barberías activas se pueden asignar (como en UsuarioController)
   private readonly barberias = signal<Barberia[]>([]);
   protected readonly barberiasActivas = computed(() => this.barberias().filter((b) => b.activo));
 
-  // null = formulario cerrado; usuario sin id = nuevo
   protected readonly seleccionado = signal<Usuario | null>(null);
   protected readonly formularioAbierto = signal(false);
 
@@ -83,7 +79,6 @@ export class UsuariosPage {
     this.seleccionado.set(null);
   }
 
-  // Recibe el usuario desde el hijo y hace el POST o el PUT
   guardarUsuario(usuario: Usuario): void {
     const peticion = usuario.id
       ? this.usuarioService.actualizar(usuario.id, usuario)

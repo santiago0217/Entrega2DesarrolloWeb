@@ -6,7 +6,6 @@ import { ResumenRol } from '../models/resumen.model';
 import { Rol, Usuario } from '../models/usuario.model';
 import { API_URL } from './api';
 
-// Gestión de usuarios del administrador (/api/admin/usuarios)
 @Injectable({
   providedIn: 'root',
 })

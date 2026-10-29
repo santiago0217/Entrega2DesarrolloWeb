@@ -23,6 +23,9 @@ INSERT INTO usuario (nombre, correo, password, telefono, rol, barberia_id, activ
 VALUES ('Felipe Ramírez', 'felipe@gmail.com', 'barbero123', '3003334455', 'BARBERO', 1, true);
 
 INSERT INTO usuario (nombre, correo, password, telefono, rol, barberia_id, activo)
+VALUES ('Felipe', 'user', 'user', '3003334455', 'CLIENTE', NULL, true);
+
+INSERT INTO usuario (nombre, correo, password, telefono, rol, barberia_id, activo)
 VALUES ('Camilo Rojas', 'camilo@gmail.com', 'barbero123', '3004445566', 'BARBERO', 2, true);
 
 INSERT INTO usuario (nombre, correo, password, telefono, rol, barberia_id, activo)
@@ -91,7 +94,6 @@ VALUES (2, 'Diseño de Barba', 'Perfilado a navaja con delineado y color opciona
 INSERT INTO servicio (barberia_id, nombre, descripcion, precio, activo)
 VALUES (2, 'Corte Infantil', 'Corte para niños menores de 12 años', 20000.0, true);
 
--- Servicios adicionales (ids 9 a 18) para que la paginación de la API se note
 INSERT INTO servicio (barberia_id, nombre, descripcion, precio, activo)
 VALUES (1, 'Corte Infantil', 'Corte para niños con máquina y tijera', 18000.0, true);
 

@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { Reserva } from '../models/reserva.model';
 import { API_URL } from './api';
 
-// Reservas asignadas al barbero de la sesión (/api/barbero)
 @Injectable({
   providedIn: 'root',
 })

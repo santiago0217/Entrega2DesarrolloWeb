@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { Pago, PagoDatos } from '../models/pago.model';
 import { API_URL } from './api';
 
-// Pagos de todas las barberías, para el administrador (/api/admin/pagos)
 @Injectable({
   providedIn: 'root',
 })

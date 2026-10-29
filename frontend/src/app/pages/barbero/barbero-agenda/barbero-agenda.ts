@@ -7,7 +7,6 @@ import { hoy } from '../../../services/api';
 import { BarberoService } from '../../../services/barbero.service';
 import { mensajeError } from '../../../services/mensaje-error';
 
-// Equivalente de barbero_agenda.html: reservas del barbero en un día
 @Component({
   selector: 'app-barbero-agenda',
   imports: [FormsModule],

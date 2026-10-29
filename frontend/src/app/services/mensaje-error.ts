@@ -1,7 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
 
-// Traduce la respuesta de error a un mensaje para el usuario.
-// Si el backend envía su propio mensaje (o los errores de validación), se muestra ese.
 export function mensajeError(error: HttpErrorResponse): string {
   const cuerpo = error.error;
   if (cuerpo && typeof cuerpo === 'object' && !(cuerpo instanceof ProgressEvent)) {

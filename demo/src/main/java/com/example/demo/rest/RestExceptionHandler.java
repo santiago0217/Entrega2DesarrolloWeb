@@ -21,11 +21,9 @@ import com.example.demo.exception.RecursoNoEncontradoException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 
-// Errores de la API REST: responden JSON en lugar de la página error.html.
 @RestControllerAdvice(basePackages = "com.example.demo.rest")
 public class RestExceptionHandler {
 
-    // 400: los datos no cumplen las validaciones de la entidad
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> manejarValidacion(MethodArgumentNotValidException ex) {
         Map<String, String> errores = new LinkedHashMap<>();
@@ -35,7 +33,6 @@ public class RestExceptionHandler {
         return ResponseEntity.badRequest().body(errores);
     }
 
-    // 400: lo mismo, pero cuando la validación se hace a mano con Validacion
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Map<String, String>> manejarRestricciones(ConstraintViolationException ex) {
         Map<String, String> errores = new LinkedHashMap<>();
@@ -45,32 +42,27 @@ public class RestExceptionHandler {
         return ResponseEntity.badRequest().body(errores);
     }
 
-    // 400: el cuerpo de la petición no es un JSON válido
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Map<String, String>> manejarJsonInvalido(HttpMessageNotReadableException ex) {
         return ResponseEntity.badRequest().body(Map.of("mensaje", "El cuerpo de la petición no es válido"));
     }
 
-    // 403: la barbería está desactivada
     @ExceptionHandler(BarberiaInactivaException.class)
     public ResponseEntity<Map<String, String>> manejarBarberiaInactiva(BarberiaInactivaException ex) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("mensaje", ex.getMessage()));
     }
 
-    // 404: el registro no existe o no pertenece al usuario de la sesión
     @ExceptionHandler(RecursoNoEncontradoException.class)
     public ResponseEntity<Map<String, String>> manejarNoEncontrado(RecursoNoEncontradoException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje", ex.getMessage()));
     }
 
-    // 409: reglas de negocio (horario ocupado, pago repetido, correo repetido)
     @ExceptionHandler({EspacioNoDisponibleException.class, PagoDuplicadoException.class,
             CorreoDuplicadoException.class})
     public ResponseEntity<Map<String, String>> manejarReglaDeNegocio(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("mensaje", ex.getMessage()));
     }
 
-    // 409: no se puede eliminar porque otros registros dependen de este
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Map<String, String>> manejarConflicto(DataIntegrityViolationException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)

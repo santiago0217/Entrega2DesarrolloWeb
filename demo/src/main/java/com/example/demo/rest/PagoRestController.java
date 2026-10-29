@@ -18,7 +18,6 @@ import com.example.demo.exception.RecursoNoEncontradoException;
 import com.example.demo.service.PagoService;
 import com.example.demo.service.ReservaService;
 
-// Equivalente REST de PagoController
 @RestController
 @RequestMapping("/api/admin/pagos")
 public class PagoRestController {

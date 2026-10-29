@@ -7,7 +7,6 @@ import { GerenteService } from '../../../services/gerente.service';
 import { mensajeError } from '../../../services/mensaje-error';
 import { SesionService } from '../../../services/sesion.service';
 
-// Equivalente de gerente_reservas.html
 @Component({
   selector: 'app-gerente-reservas',
   imports: [RouterLink],

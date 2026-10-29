@@ -8,7 +8,6 @@ import { OpcionesReserva, ReservaDatos } from '../../../models/reserva.model';
 import { ClienteService } from '../../../services/cliente.service';
 import { mensajeError } from '../../../services/mensaje-error';
 
-// Equivalente de cliente_reserva_form.html. Ruta /cliente/reservar/:servicioId
 @Component({
   selector: 'app-cliente-reservar',
   imports: [ReservaForm, CurrencyPipe],

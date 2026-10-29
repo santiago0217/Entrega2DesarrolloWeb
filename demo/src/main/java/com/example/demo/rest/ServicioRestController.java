@@ -25,7 +25,6 @@ import com.example.demo.service.ServicioService;
 
 import jakarta.validation.Valid;
 
-// Entidad A: Servicio
 @RestController
 @RequestMapping("/api/servicios")
 public class ServicioRestController {
@@ -38,7 +37,6 @@ public class ServicioRestController {
         this.barberiaService = barberiaService;
     }
 
-    // GET /api/servicios?page=0&size=5&nombre=corte&min=10000&max=30000
     @GetMapping
     public Page<Servicio> listar(@RequestParam(defaultValue = "0") int page,
                                  @RequestParam(defaultValue = "5") int size,
@@ -58,7 +56,6 @@ public class ServicioRestController {
         return ResponseEntity.ok(servicio);
     }
 
-    // Servicios de una barbería (consulta JPQL que usa la relación)
     @GetMapping("/barberia/{barberiaId}")
     public List<Servicio> listarPorBarberia(@PathVariable Long barberiaId) {
         return servicioService.listarPorBarberia(barberiaId);
@@ -107,7 +104,6 @@ public class ServicioRestController {
         return ResponseEntity.noContent().build();
     }
 
-    // El JSON solo trae { "barberia": { "id": 1 } }; se busca la barbería completa.
     private Barberia buscarBarberia(Servicio servicio) {
         if (servicio.getBarberia() == null || servicio.getBarberia().getId() == null) {
             return null;

@@ -7,7 +7,6 @@ import { GerenteService } from '../../../services/gerente.service';
 import { mensajeError } from '../../../services/mensaje-error';
 import { SesionService } from '../../../services/sesion.service';
 
-// Equivalente de gerente_espacios.html + gerente_espacio_form.html
 @Component({
   selector: 'app-gerente-espacios',
   imports: [EspacioForm],

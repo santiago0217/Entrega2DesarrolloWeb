@@ -9,8 +9,6 @@ import { GerenteService } from '../../../services/gerente.service';
 import { mensajeError } from '../../../services/mensaje-error';
 import { SesionService } from '../../../services/sesion.service';
 
-// Equivalente de gerente_servicios.html + gerente_servicio_form.html.
-// Reutiliza el hijo editar-servicio para crear y para editar.
 @Component({
   selector: 'app-gerente-servicios',
   imports: [CurrencyPipe, EditarServicio],

@@ -9,7 +9,6 @@ interface Enlace {
   texto: string;
 }
 
-// Enlaces del menú según el rol del usuario
 const ENLACES: Record<Rol, Enlace[]> = {
   ADMINISTRADOR: [
     { ruta: '/admin', texto: 'Panel' },
@@ -66,7 +65,6 @@ export class Navbar {
     return usuario ? ENLACES[usuario.rol] : ENLACES_PUBLICOS;
   });
 
-  // Se muestra al pasar el mouse sobre el logo
   protected readonly mensaje = signal('');
 
   mostrarMensaje(): void {

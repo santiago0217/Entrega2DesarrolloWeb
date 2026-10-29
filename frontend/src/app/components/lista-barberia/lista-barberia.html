@@ -57,7 +57,6 @@
 }
 
 <section class="secciones">
-  <!-- GET por id -->
   <form class="formulario" (ngSubmit)="consultar()">
     <h2>Consultar por id</h2>
     <div class="campo">
@@ -79,7 +78,6 @@
     }
   </form>
 
-  <!-- POST o PUT -->
   <form class="formulario" (ngSubmit)="guardar()">
     <h2>{{ editando() ? 'Editar barbería #' + editando()?.id : 'Nueva barbería' }}</h2>
     <div class="campo">

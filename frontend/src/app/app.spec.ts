@@ -84,7 +84,6 @@ function usuario(rol: Rol): Usuario {
 describe('App', () => {
   let http: HttpTestingController;
 
-  // Inicia sesión como lo hace la página de login (el backend responde con el usuario)
   function iniciarSesion(rol: Rol): void {
     TestBed.inject(SesionService).login({ correo: 'admin@gmail.com', password: 'x' }).subscribe();
     http.expectOne(`${API}/auth/login`).flush(usuario(rol));

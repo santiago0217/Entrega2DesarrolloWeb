@@ -16,7 +16,6 @@ import com.example.demo.service.ReservaService;
 import com.example.demo.service.ServicioService;
 import com.example.demo.service.UsuarioService;
 
-// Equivalente REST de AdminController
 @RestController
 @RequestMapping("/api/admin")
 public class AdminRestController {
@@ -47,7 +46,6 @@ public class AdminRestController {
                 reservaService.findAll().size());
     }
 
-    // GET /api/admin/reportes?minimo=100000
     @GetMapping("/reportes")
     public List<ResumenBarberia> reportes(@RequestParam(defaultValue = "100000") Double minimo) {
         return pagoService.buscarBarberiasConIngresosMayoresA(minimo);

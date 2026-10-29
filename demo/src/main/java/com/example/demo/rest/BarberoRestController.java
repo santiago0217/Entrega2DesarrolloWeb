@@ -15,7 +15,6 @@ import com.example.demo.service.ReservaService;
 
 import jakarta.servlet.http.HttpSession;
 
-// Equivalente REST de BarberoController
 @RestController
 @RequestMapping("/api/barbero")
 public class BarberoRestController {
@@ -31,7 +30,6 @@ public class BarberoRestController {
         return reservaService.findByBarberoId(barbero(sesion).getId());
     }
 
-    // GET /api/barbero/agenda?fecha=2026-10-27 (sin fecha: hoy)
     @GetMapping("/agenda")
     public List<Reserva> agenda(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha,
                                 HttpSession sesion) {

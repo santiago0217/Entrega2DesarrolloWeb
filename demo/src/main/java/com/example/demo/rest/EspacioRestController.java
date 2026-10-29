@@ -19,7 +19,6 @@ import com.example.demo.exception.RecursoNoEncontradoException;
 import com.example.demo.service.BarberiaService;
 import com.example.demo.service.EspacioService;
 
-// Equivalente REST de EspacioController
 @RestController
 @RequestMapping("/api/admin/espacios")
 public class EspacioRestController {
@@ -35,7 +34,6 @@ public class EspacioRestController {
         this.validacion = validacion;
     }
 
-    // GET /api/admin/espacios?capacidadMinima=2
     @GetMapping
     public List<Espacio> listar(@RequestParam(required = false) Integer capacidadMinima) {
         return capacidadMinima != null

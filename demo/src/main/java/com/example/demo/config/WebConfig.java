@@ -16,12 +16,10 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        // API REST que usa Angular
         registry.addInterceptor(apiAutenticacionInterceptor)
                 .addPathPatterns("/api/admin/**", "/api/gerente/**", "/api/barbero/**", "/api/cliente/**");
     }
 
-    // Angular (puerto 4200) envía la cookie de sesión, por eso allowCredentials
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")

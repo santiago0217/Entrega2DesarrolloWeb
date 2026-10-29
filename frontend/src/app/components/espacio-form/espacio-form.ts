@@ -12,8 +12,6 @@ import { FormsModule } from '@angular/forms';
 import { Barberia } from '../../models/barberia.model';
 import { Espacio } from '../../models/espacio.model';
 
-// Hijo: recibe el espacio con input() (null = nuevo) y lo devuelve con output().
-// El administrador envía la lista de barberías para elegir; el gerente no (usa la suya).
 @Component({
   selector: 'app-espacio-form',
   imports: [FormsModule],

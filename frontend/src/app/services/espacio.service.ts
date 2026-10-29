@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { Espacio } from '../models/espacio.model';
 import { API_URL } from './api';
 
-// Espacios de todas las barberías, para el administrador (/api/admin/espacios)
 @Injectable({
   providedIn: 'root',
 })

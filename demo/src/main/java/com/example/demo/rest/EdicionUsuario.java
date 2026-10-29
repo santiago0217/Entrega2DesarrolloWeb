@@ -6,8 +6,6 @@ import com.example.demo.entities.Usuario;
 import com.example.demo.exception.CorreoDuplicadoException;
 import com.example.demo.service.UsuarioService;
 
-// Pasa los datos que llegan en el JSON a la entidad que se va a guardar.
-// La API nunca envía la contraseña, así que al editar se conserva si llega vacía.
 @Component
 public class EdicionUsuario {
 

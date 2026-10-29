@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-// Protege la API por rol: responde 401 sin sesión y 403 si el rol no corresponde, en JSON.
 @Component
 public class ApiAutenticacionInterceptor implements HandlerInterceptor {
 
@@ -21,7 +20,6 @@ public class ApiAutenticacionInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
 
-        // La petición previa de CORS (OPTIONS) no lleva la cookie de sesión
         if (CorsUtils.isPreFlightRequest(request)) {
             return true;
         }

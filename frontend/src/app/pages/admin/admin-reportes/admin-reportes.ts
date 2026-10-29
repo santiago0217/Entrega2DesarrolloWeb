@@ -7,7 +7,6 @@ import { ResumenBarberia } from '../../../models/resumen.model';
 import { AdminService } from '../../../services/admin.service';
 import { mensajeError } from '../../../services/mensaje-error';
 
-// Equivalente de admin_reportes.html: barberías con ingresos (pagos COMPLETADOS) mayores al mínimo
 @Component({
   selector: 'app-admin-reportes',
   imports: [FormsModule, CurrencyPipe],

@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { ResumenAdmin, ResumenBarberia } from '../models/resumen.model';
 import { API_URL } from './api';
 
-// Panel y reportes del administrador (/api/admin)
 @Injectable({
   providedIn: 'root',
 })

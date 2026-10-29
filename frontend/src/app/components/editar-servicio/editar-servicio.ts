@@ -10,8 +10,6 @@ import { FormsModule } from '@angular/forms';
 
 import { Servicio } from '../../models/servicio.model';
 
-// Hijo de lista-servicio y gerente-servicios: recibe el servicio con input() y lo devuelve editado
-// con output(). Si el servicio no tiene id, el formulario sirve para crear uno nuevo.
 @Component({
   selector: 'app-editar-servicio',
   imports: [FormsModule],
@@ -24,7 +22,6 @@ export class EditarServicio {
   guardado = output<Servicio>();
   cancelado = output<void>();
 
-  // Copias editables; se reinician cuando el padre envía otro registro
   protected readonly nombre = linkedSignal(() => this.registro().nombre);
   protected readonly descripcion = linkedSignal(() => this.registro().descripcion ?? '');
   protected readonly precio = linkedSignal(() => this.registro().precio);

@@ -36,14 +36,12 @@ export class FormServicio {
   });
 
   constructor() {
-    // Barberías para el selector
     this.barberiaService.listar().subscribe({
       next: (lista) => this.barberias.set(lista),
       error: (err: HttpErrorResponse) => this.error.set(mensajeError(err)),
     });
   }
 
-  // Muestra el error de un campo solo después de que el usuario lo tocó
   protected tieneError(campo: string, validacion: string): boolean {
     const control = this.formulario.get(campo)!;
     return control.touched && control.hasError(validacion);

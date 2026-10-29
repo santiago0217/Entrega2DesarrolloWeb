@@ -10,7 +10,6 @@ import com.example.demo.entities.Usuario;
 import com.example.demo.exception.BarberiaInactivaException;
 import com.example.demo.exception.RecursoNoEncontradoException;
 
-// Reglas del gerente: solo trabaja sobre su barbería y solo puede modificarla si está activa.
 @Service
 public class AccesoGerente {
 

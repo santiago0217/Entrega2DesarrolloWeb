@@ -9,7 +9,6 @@ import { BarberiaService } from '../../../services/barberia.service';
 import { EspacioService } from '../../../services/espacio.service';
 import { mensajeError } from '../../../services/mensaje-error';
 
-// Equivalente de espacios.html + espacio_form.html
 @Component({
   selector: 'app-admin-espacios',
   imports: [FormsModule, EspacioForm],

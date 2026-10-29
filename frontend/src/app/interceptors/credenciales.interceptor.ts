@@ -6,8 +6,6 @@ import { catchError, throwError } from 'rxjs';
 import { API_URL } from '../services/api';
 import { SesionService } from '../services/sesion.service';
 
-// Envía la cookie de sesión en cada petición al backend y, si la sesión expiró (401),
-// limpia el usuario y vuelve al login.
 export const credencialesInterceptor: HttpInterceptorFn = (req, next) => {
   if (!req.url.startsWith(API_URL)) {
     return next(req);

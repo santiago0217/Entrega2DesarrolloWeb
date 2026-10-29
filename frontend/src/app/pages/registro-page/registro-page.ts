@@ -7,7 +7,6 @@ import { Rol, Usuario } from '../../models/usuario.model';
 import { mensajeError } from '../../services/mensaje-error';
 import { SesionService } from '../../services/sesion.service';
 
-// Equivalente de registro.html: crea una cuenta de CLIENTE
 @Component({
   selector: 'app-registro-page',
   imports: [UsuarioForm, RouterLink],

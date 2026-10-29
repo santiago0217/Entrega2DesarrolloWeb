@@ -32,7 +32,6 @@ import com.example.demo.service.UsuarioService;
 
 import jakarta.servlet.http.HttpSession;
 
-// Equivalente REST de ClienteController. Las reservas y pagos son siempre del cliente de la sesión.
 @RestController
 @RequestMapping("/api/cliente")
 public class ClienteRestController {
@@ -74,7 +73,6 @@ public class ClienteRestController {
                 usuarioService.buscarBarberosDeBarberia(id));
     }
 
-    // GET /api/cliente/reservas/opciones?servicioId=1: servicio elegido con sus barberos y espacios
     @GetMapping("/reservas/opciones")
     public OpcionesReserva opciones(@RequestParam Integer servicioId) {
         Servicio servicio = buscarServicio(servicioId);
@@ -97,7 +95,6 @@ public class ClienteRestController {
         return new ReservaConPago(reserva, pagoService.findByReservaId(id));
     }
 
-    // El JSON trae servicio, barbero y espacio por id; el cliente es siempre el de la sesión
     @PostMapping("/reservas")
     public ResponseEntity<Reserva> reservar(@RequestBody Reserva datos, HttpSession sesion) {
         Servicio servicio = buscarServicio(datos.getServicio() == null ? null : datos.getServicio().getId());
@@ -106,7 +103,6 @@ public class ClienteRestController {
         Reserva reserva = new Reserva();
         reserva.setUsuario(cliente(sesion));
         reserva.setServicio(servicio);
-        // Solo se aceptan barberos y espacios activos de la misma barbería
         reserva.setBarbero(usuarioService.buscarBarberosDeBarberia(barberiaId).stream()
                 .filter(b -> datos.getBarbero() != null && b.getId().equals(datos.getBarbero().getId()))
                 .findFirst().orElse(null));
@@ -126,7 +122,6 @@ public class ClienteRestController {
         return ResponseEntity.noContent().build();
     }
 
-    // El monto siempre es el precio del servicio, como en el formulario (campo de solo lectura)
     @PostMapping("/pagos")
     public ResponseEntity<Pago> pagar(@RequestBody Pago datos, HttpSession sesion) {
         if (datos.getReserva() == null || datos.getReserva().getId() == null) {

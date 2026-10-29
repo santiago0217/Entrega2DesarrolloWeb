@@ -25,7 +25,6 @@ import com.example.demo.service.ReservaService;
 import com.example.demo.service.ServicioService;
 import com.example.demo.service.UsuarioService;
 
-// Equivalente REST de ReservaController
 @RestController
 @RequestMapping("/api/admin/reservas")
 public class ReservaRestController {
@@ -48,7 +47,6 @@ public class ReservaRestController {
         this.validacion = validacion;
     }
 
-    // GET /api/admin/reservas?usuarioId=3
     @GetMapping
     public List<ReservaConPago> listar(@RequestParam(required = false) Long usuarioId) {
         List<Reserva> reservas = usuarioId != null
@@ -59,7 +57,6 @@ public class ReservaRestController {
                 .toList();
     }
 
-    // Opciones de los selectores del formulario (las mismas de cargarOpciones en ReservaController)
     @GetMapping("/opciones")
     public OpcionesReserva opciones() {
         return new OpcionesReserva(null,
@@ -91,7 +88,6 @@ public class ReservaRestController {
         return ResponseEntity.noContent().build();
     }
 
-    // El JSON trae solo los ids ({ "barbero": { "id": 5 } }); se buscan los registros completos
     private Reserva guardar(Reserva reserva, Reserva datos) {
         reserva.setUsuario(datos.getUsuario() == null || datos.getUsuario().getId() == null
                 ? null : usuarioService.buscarPorId(datos.getUsuario().getId()));

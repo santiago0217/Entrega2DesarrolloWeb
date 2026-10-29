@@ -6,7 +6,6 @@ import { Reserva } from '../../../models/reserva.model';
 import { BarberoService } from '../../../services/barbero.service';
 import { mensajeError } from '../../../services/mensaje-error';
 
-// Equivalente de barbero_reservas.html
 @Component({
   selector: 'app-barbero-reservas',
   imports: [RouterLink],

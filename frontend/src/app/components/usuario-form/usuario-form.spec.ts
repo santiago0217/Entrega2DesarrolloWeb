@@ -15,7 +15,6 @@ describe('UsuarioForm', () => {
   }
 
   async function enviar() {
-    // Como en el navegador: Angular procesa lo escrito antes de que llegue el submit.
     await fixture.whenStable();
     elemento.querySelector('form')!.dispatchEvent(new Event('submit'));
     await fixture.whenStable();

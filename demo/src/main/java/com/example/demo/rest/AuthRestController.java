@@ -17,8 +17,6 @@ import com.example.demo.service.UsuarioService;
 
 import jakarta.servlet.http.HttpSession;
 
-// Login de Angular. Guarda el usuario en la HttpSession; ApiAutenticacionInterceptor lo lee
-// para aplicar las reglas por rol.
 @RestController
 @RequestMapping("/api/auth")
 public class AuthRestController {
@@ -42,7 +40,6 @@ public class AuthRestController {
         return ResponseEntity.ok(usuario);
     }
 
-    // Angular la llama al recargar la página para saber si la sesión sigue abierta
     @GetMapping("/sesion")
     public ResponseEntity<Usuario> sesion(HttpSession sesion) {
         Usuario usuario = (Usuario) sesion.getAttribute("usuario");
@@ -52,7 +49,6 @@ public class AuthRestController {
         return ResponseEntity.ok(usuario);
     }
 
-    // Registro público: siempre crea un CLIENTE, como en /registro
     @PostMapping("/registro")
     public ResponseEntity<Usuario> registro(@RequestBody Usuario datos) {
         Usuario usuario = new Usuario();

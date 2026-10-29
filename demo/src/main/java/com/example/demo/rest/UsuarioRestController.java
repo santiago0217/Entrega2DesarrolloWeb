@@ -23,7 +23,6 @@ import com.example.demo.exception.RecursoNoEncontradoException;
 import com.example.demo.service.BarberiaService;
 import com.example.demo.service.UsuarioService;
 
-// Equivalente REST de UsuarioController
 @RestController
 @RequestMapping("/api/admin/usuarios")
 public class UsuarioRestController {
@@ -39,7 +38,6 @@ public class UsuarioRestController {
         this.edicionUsuario = edicionUsuario;
     }
 
-    // GET /api/admin/usuarios?rol=BARBERO
     @GetMapping
     public List<Usuario> listar(@RequestParam(required = false) Rol rol) {
         return rol != null ? usuarioService.buscarTodosPorRol(rol) : usuarioService.buscarTodos();
@@ -79,7 +77,6 @@ public class UsuarioRestController {
         return ResponseEntity.noContent().build();
     }
 
-    // Misma regla que UsuarioController: barberos y gerentes necesitan barbería; los demás no la tienen
     private ResponseEntity<?> guardar(Usuario usuario, Usuario datos, HttpStatus status) {
         if (datos.getRol() == Rol.BARBERO || datos.getRol() == Rol.GERENTE) {
             Barberia barberia = datos.getBarberia() == null || datos.getBarberia().getId() == null

@@ -8,7 +8,6 @@ import { OpcionesReserva, Reserva, ReservaConPago, ReservaDatos } from '../model
 import { DetalleBarberia } from '../models/resumen.model';
 import { API_URL } from './api';
 
-// Todo lo del cliente (/api/cliente). Las reservas y pagos son siempre los del cliente de la sesión.
 @Injectable({
   providedIn: 'root',
 })

@@ -2,8 +2,6 @@ import { Routes } from '@angular/router';
 
 import { rolGuard } from './guards/rol.guard';
 
-// Cada rol tiene su sección, protegida con rolGuard (las mismas reglas que el backend).
-// Las rutas siguen la API: /admin/..., /gerente/..., /barbero/..., /cliente/...
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
   {
@@ -30,7 +28,6 @@ export const routes: Routes = [
         title: 'Panel | BarberBook',
         loadComponent: () => import('./pages/admin/admin-panel/admin-panel').then((m) => m.AdminPanel),
       },
-      // Entidad B: Barbería
       {
         path: 'barberias',
         title: 'Barberías | BarberBook',
@@ -42,7 +39,6 @@ export const routes: Routes = [
         title: 'Usuarios | BarberBook',
         loadComponent: () => import('./pages/usuarios-page/usuarios-page').then((m) => m.UsuariosPage),
       },
-      // Entidad A: Servicio
       {
         path: 'servicios',
         title: 'Servicios | BarberBook',

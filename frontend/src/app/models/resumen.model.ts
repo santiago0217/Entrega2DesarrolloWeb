@@ -2,7 +2,6 @@ import { Barberia } from './barberia.model';
 import { Servicio } from './servicio.model';
 import { Rol, Usuario } from './usuario.model';
 
-// Respuestas de los paneles y reportes (ver el paquete dto del backend)
 export interface ResumenAdmin {
   totalBarberias: number;
   totalUsuarios: number;

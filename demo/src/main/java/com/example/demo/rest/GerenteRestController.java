@@ -34,7 +34,6 @@ import com.example.demo.service.UsuarioService;
 
 import jakarta.servlet.http.HttpSession;
 
-// Equivalente REST de GerenteController. Todo se limita a la barbería del gerente de la sesión.
 @RestController
 @RequestMapping("/api/gerente")
 public class GerenteRestController {
@@ -73,8 +72,6 @@ public class GerenteRestController {
                 pagoService.totalRecaudado(barberia.getId()));
     }
 
-    // ===== Reservas, agenda y pagos (solo lectura) =====
-
     @GetMapping("/reservas")
     public List<ReservaConPago> reservas(HttpSession sesion) {
         Barberia barberia = accesoGerente.barberia(gerente(sesion));
@@ -83,7 +80,6 @@ public class GerenteRestController {
                 .toList();
     }
 
-    // GET /api/gerente/agenda?fecha=2026-10-27 (sin fecha: hoy)
     @GetMapping("/agenda")
     public List<Reserva> agenda(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha,
                                 HttpSession sesion) {
@@ -95,8 +91,6 @@ public class GerenteRestController {
     public List<Pago> pagos(HttpSession sesion) {
         return pagoService.findByBarberiaId(accesoGerente.barberia(gerente(sesion)).getId());
     }
-
-    // ===== Servicios =====
 
     @GetMapping("/servicios")
     public List<Servicio> servicios(HttpSession sesion) {
@@ -131,8 +125,6 @@ public class GerenteRestController {
         return ResponseEntity.noContent().build();
     }
 
-    // ===== Espacios =====
-
     @GetMapping("/espacios")
     public List<Espacio> espacios(HttpSession sesion) {
         return espacioService.obtenerTodosPorBarberia(accesoGerente.barberia(gerente(sesion)).getId());
@@ -165,8 +157,6 @@ public class GerenteRestController {
         espacioService.activar(id);
         return ResponseEntity.noContent().build();
     }
-
-    // ===== Barberos =====
 
     @GetMapping("/barberos")
     public List<Usuario> barberos(HttpSession sesion) {
@@ -201,7 +191,6 @@ public class GerenteRestController {
         return ResponseEntity.noContent().build();
     }
 
-    // La barbería siempre es la del gerente, aunque el JSON traiga otra
     private Servicio guardarServicio(Servicio servicio, Servicio datos, Barberia barberia) {
         servicio.setNombre(datos.getNombre());
         servicio.setDescripcion(datos.getDescripcion());

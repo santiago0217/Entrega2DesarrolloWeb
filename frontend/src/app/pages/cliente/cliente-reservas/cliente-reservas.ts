@@ -6,7 +6,6 @@ import { ReservaConPago } from '../../../models/reserva.model';
 import { ClienteService } from '../../../services/cliente.service';
 import { mensajeError } from '../../../services/mensaje-error';
 
-// Equivalente de cliente_reservas.html
 @Component({
   selector: 'app-cliente-reservas',
   imports: [RouterLink],

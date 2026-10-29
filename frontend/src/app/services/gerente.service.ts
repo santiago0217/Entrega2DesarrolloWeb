@@ -10,7 +10,6 @@ import { Servicio } from '../models/servicio.model';
 import { Usuario } from '../models/usuario.model';
 import { API_URL } from './api';
 
-// Todo lo del gerente (/api/gerente). El backend limita cada consulta a su barbería.
 @Injectable({
   providedIn: 'root',
 })
@@ -64,7 +63,6 @@ export class GerenteService {
       : this.http.post<Usuario>(`${this.url}/barberos`, barbero);
   }
 
-  // tipo: 'servicios' | 'espacios' | 'barberos'
   cambiarEstado(tipo: string, id: number, activo: boolean): Observable<void> {
     return this.http.patch<void>(`${this.url}/${tipo}/${id}/${activo ? 'activar' : 'desactivar'}`, null);
   }

@@ -13,7 +13,6 @@ export class ServicioService {
   private http = inject(HttpClient);
   private readonly url = `${API_URL}/servicios`;
 
-  // GET paginado; nombre, min y max son filtros opcionales
   listar(
     page: number,
     size: number,

@@ -9,7 +9,6 @@ import { mensajeError } from '../../../services/mensaje-error';
 import { ReservaService } from '../../../services/reserva.service';
 import { UsuarioService } from '../../../services/usuario.service';
 
-// Equivalente de mostrar_reservas.html
 @Component({
   selector: 'app-admin-reservas',
   imports: [FormsModule, RouterLink],

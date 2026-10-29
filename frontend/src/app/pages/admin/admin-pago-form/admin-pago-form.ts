@@ -9,7 +9,6 @@ import { mensajeError } from '../../../services/mensaje-error';
 import { PagoService } from '../../../services/pago.service';
 import { ReservaService } from '../../../services/reserva.service';
 
-// Equivalente de pago_form.html. Ruta /admin/pagos/nuevo?reservaId=3 o /admin/pagos/:id/editar
 @Component({
   selector: 'app-admin-pago-form',
   imports: [PagoForm],
@@ -21,7 +20,6 @@ export class AdminPagoForm implements OnInit {
   private reservaService = inject(ReservaService);
   private router = inject(Router);
 
-  // :id de la ruta y ?reservaId (withComponentInputBinding)
   id = input<string>();
   reservaId = input<string>();
 

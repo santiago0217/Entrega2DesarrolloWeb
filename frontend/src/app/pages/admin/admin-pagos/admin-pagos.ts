@@ -7,7 +7,6 @@ import { Pago } from '../../../models/pago.model';
 import { mensajeError } from '../../../services/mensaje-error';
 import { PagoService } from '../../../services/pago.service';
 
-// Equivalente de pagos.html
 @Component({
   selector: 'app-admin-pagos',
   imports: [RouterLink, CurrencyPipe],

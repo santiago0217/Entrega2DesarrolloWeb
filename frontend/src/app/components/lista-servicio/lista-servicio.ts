@@ -22,21 +22,18 @@ export class ListaServicio {
 
   protected readonly servicios = signal<Servicio[]>([]);
   protected readonly cargando = signal(false);
-  protected readonly error = signal(''); // error al cargar la lista
-  protected readonly aviso = signal(''); // resultado de editar o eliminar
+  protected readonly error = signal('');
+  protected readonly aviso = signal('');
 
-  // Paginación (el backend cuenta las páginas desde 0)
   private readonly tamano = 5;
   protected readonly pagina = signal(0);
   protected readonly totalPaginas = signal(0);
   protected readonly total = signal(0);
 
-  // Buscador por nombre y selector de filtro (two-way binding)
   protected readonly nombre = signal('');
   protected readonly filtroPrecio = signal('todos');
   protected readonly letrasEscritas = signal(0);
 
-  // Registro que se envía al hijo editar-servicio
   protected readonly seleccionado = signal<Servicio | null>(null);
 
   constructor() {
@@ -90,7 +87,6 @@ export class ListaServicio {
     this.seleccionado.set(null);
   }
 
-  // Recibe el servicio modificado desde el hijo y hace el PUT
   actualizar(servicio: Servicio): void {
     this.cargando.set(true);
     this.servicioService.actualizar(servicio.id!, servicio).subscribe({
@@ -113,7 +109,6 @@ export class ListaServicio {
     this.cargando.set(true);
     this.servicioService.eliminar(servicio.id!).subscribe({
       next: () => {
-        // Si era el último de la página, se vuelve a la anterior
         if (this.servicios().length === 1 && this.pagina() > 0) {
           this.pagina.update((p) => p - 1);
         }

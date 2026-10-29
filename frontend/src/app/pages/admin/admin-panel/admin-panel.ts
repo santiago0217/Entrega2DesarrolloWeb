@@ -6,7 +6,6 @@ import { ResumenAdmin } from '../../../models/resumen.model';
 import { AdminService } from '../../../services/admin.service';
 import { mensajeError } from '../../../services/mensaje-error';
 
-// Equivalente de admin_panel.html
 @Component({
   selector: 'app-admin-panel',
   imports: [RouterLink],

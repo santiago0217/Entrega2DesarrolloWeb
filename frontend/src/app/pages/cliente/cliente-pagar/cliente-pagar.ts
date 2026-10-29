@@ -8,7 +8,6 @@ import { Reserva } from '../../../models/reserva.model';
 import { ClienteService } from '../../../services/cliente.service';
 import { mensajeError } from '../../../services/mensaje-error';
 
-// Equivalente de cliente_pago_form.html. Ruta /cliente/pagar/:reservaId
 @Component({
   selector: 'app-cliente-pagar',
   imports: [PagoForm],

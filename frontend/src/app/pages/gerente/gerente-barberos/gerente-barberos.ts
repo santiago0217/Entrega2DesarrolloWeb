@@ -7,8 +7,6 @@ import { GerenteService } from '../../../services/gerente.service';
 import { mensajeError } from '../../../services/mensaje-error';
 import { SesionService } from '../../../services/sesion.service';
 
-// Equivalente de gerente_barberos.html + gerente_barbero_form.html.
-// Reutiliza el hijo usuario-form con el rol fijo BARBERO; la barbería la pone el backend.
 @Component({
   selector: 'app-gerente-barberos',
   imports: [UsuarioForm],

@@ -7,7 +7,6 @@ import { ResumenGerente } from '../../../models/resumen.model';
 import { GerenteService } from '../../../services/gerente.service';
 import { mensajeError } from '../../../services/mensaje-error';
 
-// Equivalente de gerente_panel.html
 @Component({
   selector: 'app-gerente-panel',
   imports: [RouterLink, CurrencyPipe],

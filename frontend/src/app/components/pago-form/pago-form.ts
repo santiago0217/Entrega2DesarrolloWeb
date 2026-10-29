@@ -13,10 +13,6 @@ import { FormsModule } from '@angular/forms';
 import { ESTADOS_PAGO, METODOS_PAGO, Pago, PagoDatos } from '../../models/pago.model';
 import { Reserva } from '../../models/reserva.model';
 
-// Hijo: recibe el pago (null = nuevo) y la reserva o la lista de reservas con input(),
-// y devuelve los datos con output().
-// - Administrador: elige la reserva de la lista y puede cambiar el monto.
-// - Cliente: recibe solo su reserva; el monto es el precio del servicio y no se puede cambiar.
 @Component({
   selector: 'app-pago-form',
   imports: [FormsModule, CurrencyPipe],
@@ -50,7 +46,6 @@ export class PagoForm {
   protected readonly intentoGuardar = signal(false);
   protected readonly montoInvalido = computed(() => !((this.monto() ?? 0) > 0));
 
-  // Al elegir una reserva, el monto sugerido es el precio de su servicio (como en PagoController)
   elegirReserva(id: number | null): void {
     this.reservaId.set(id);
     const reserva = this.reservas().find((r) => r.id === id);

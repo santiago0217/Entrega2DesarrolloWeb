@@ -18,7 +18,6 @@ import com.example.demo.service.BarberiaService;
 
 import jakarta.validation.Valid;
 
-// Entidad B: Barbería
 @RestController
 @RequestMapping("/api/barberias")
 public class BarberiaRestController {

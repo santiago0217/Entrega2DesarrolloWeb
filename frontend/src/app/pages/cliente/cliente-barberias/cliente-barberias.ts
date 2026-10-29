@@ -6,7 +6,6 @@ import { Barberia } from '../../../models/barberia.model';
 import { ClienteService } from '../../../services/cliente.service';
 import { mensajeError } from '../../../services/mensaje-error';
 
-// Equivalente de cliente_barberias.html: barberías activas
 @Component({
   selector: 'app-cliente-barberias',
   imports: [RouterLink],

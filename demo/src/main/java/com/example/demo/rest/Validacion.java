@@ -8,8 +8,6 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 
-// Valida una entidad después de completarla en el controlador (por ejemplo, con la barbería
-// o el cliente de la sesión). Los errores los convierte en 400 el RestExceptionHandler.
 @Component
 public class Validacion {
 

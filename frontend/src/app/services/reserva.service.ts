@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { OpcionesReserva, Reserva, ReservaConPago, ReservaDatos } from '../models/reserva.model';
 import { API_URL } from './api';
 
-// Reservas de todas las barberías, para el administrador (/api/admin/reservas)
 @Injectable({
   providedIn: 'root',
 })

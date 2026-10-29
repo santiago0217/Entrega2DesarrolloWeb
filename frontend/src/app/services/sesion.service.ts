@@ -5,7 +5,6 @@ import { Observable, catchError, map, of, tap } from 'rxjs';
 import { Credenciales, Rol, Usuario } from '../models/usuario.model';
 import { API_URL } from './api';
 
-// Página principal de cada rol (igual que HomeController en el backend)
 export function rutaInicio(rol: Rol): string {
   switch (rol) {
     case 'ADMINISTRADOR':
@@ -26,8 +25,6 @@ export class SesionService {
   private http = inject(HttpClient);
   private readonly url = `${API_URL}/auth`;
 
-  // La sesión real vive en el backend (cookie JSESSIONID); aquí solo se recuerda quién es.
-  // La contraseña nunca se guarda.
   private readonly usuarioActual = signal<Usuario | null>(null);
 
   readonly usuario = this.usuarioActual.asReadonly();
@@ -43,7 +40,6 @@ export class SesionService {
     return this.http.post<Usuario>(`${this.url}/registro`, usuario);
   }
 
-  // Al recargar la página se pregunta al backend si la sesión sigue abierta
   restaurar(): Observable<Usuario | null> {
     const usuario = this.usuarioActual();
     if (usuario) {

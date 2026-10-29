@@ -12,8 +12,6 @@ import { FormsModule } from '@angular/forms';
 import { Barberia } from '../../models/barberia.model';
 import { ROLES, Rol, Usuario } from '../../models/usuario.model';
 
-// Hijo: recibe el usuario a editar con input() (null = nuevo) y devuelve el usuario con output().
-// Lo usan UsuariosPage (administrador), GerenteBarberos y RegistroPage.
 @Component({
   selector: 'app-usuario-form',
   imports: [FormsModule],
@@ -31,7 +29,6 @@ export class UsuarioForm {
 
   protected readonly editando = computed(() => this.registro()?.id !== undefined);
 
-  // Copias editables; se reinician cuando el padre envía otro registro
   protected readonly nombre = linkedSignal(() => this.registro()?.nombre ?? '');
   protected readonly correo = linkedSignal(() => this.registro()?.correo ?? '');
   protected readonly password = linkedSignal(() => '');
@@ -40,12 +37,10 @@ export class UsuarioForm {
   protected readonly barberiaId = linkedSignal<number | null>(() => this.registro()?.barberia?.id ?? null);
   protected readonly activo = linkedSignal(() => this.registro()?.activo ?? true);
 
-  // Barberos y gerentes trabajan en una barbería (misma regla que UsuarioController)
   protected readonly pideBarberia = computed(
     () => this.barberias().length > 0 && (this.rol() === 'BARBERO' || this.rol() === 'GERENTE'),
   );
 
-  // Mismas validaciones que Usuario.java
   protected readonly intentoGuardar = signal(false);
   protected readonly nombreVacio = computed(() => this.nombre().trim() === '');
   protected readonly nombreInvalido = computed(
@@ -55,7 +50,6 @@ export class UsuarioForm {
   protected readonly correoInvalido = computed(
     () => !this.correoVacio() && !/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[cC][oO][mM]$/.test(this.correo().trim()),
   );
-  // Al editar, la contraseña vacía significa "conservar la actual"
   protected readonly passwordInvalido = computed(
     () => (!this.editando() || this.password() !== '') && this.password().length < 4,
   );

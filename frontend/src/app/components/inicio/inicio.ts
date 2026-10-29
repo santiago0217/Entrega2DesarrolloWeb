@@ -14,7 +14,6 @@ export class Inicio {
   protected readonly titulo = 'Bienvenido a BarberBook';
   protected readonly usuario = computed(() => this.sesionService.correo() ?? 'invitado');
 
-  // Contador de visitas con signals
   protected readonly visitas = signal(0);
 
   sumar(): void {
